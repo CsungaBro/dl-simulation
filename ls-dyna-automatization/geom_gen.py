@@ -47,24 +47,24 @@ class Main():
         # Stamp/Stempel parameters
         "h1" : 15 ,
         "z1" : 33,
-        "a1" : 58,
-        "b1" : 58,
+        "a1" : 48,
+        "b1" : 48,
         "r1" : 10,
-        "mesh_max_1" : 6,
-        "mesh_min_1" : 2,
-        "mesh_dev_1" : 1,
+        "mesh_max_1" : 3,
+        "mesh_min_1" : 1,
+        "mesh_dev_1" : 0.5,
         # Matrize parameters
         "h2" : 20,
         "z2" : 30 ,
-        "a2" : 150,
-        "b2" : 150,
-        "c2" : 60,
-        "d2" : 60,
+        "a2" : 120,
+        "b2" : 120,
+        "c2" : 50,
+        "d2" : 50,
         "r2_u" : 5,
         "r2_b" : 10,
-        "mesh_max_2" : 3,
-        "mesh_min_2" : 1,
-        "mesh_dev_2" : 0.5,
+        "mesh_max_2" : 6,
+        "mesh_min_2" : 2,
+        "mesh_dev_2" : 1,
         # Organoblech parameters
         "a3" : 80,
         "b3" : 80,
@@ -91,5 +91,8 @@ class Main():
         return new_line
     
 if __name__ == "__main__":
-    M = Main("ls-dyna-automatization\\template\\k_file_gen.cfile","ls-dyna-automatization\\output\\test.cfile")
+    # input_file = "ls-dyna-automatization\\template\\k_file_gen.cfile"
+    input_file = "ls-dyna-automatization\\template\\save_2.cfile"
+    output_file = "ls-dyna-automatization\\output\\test2.cfile"
+    M = Main(input_file, output_file)
     M.file_reader()

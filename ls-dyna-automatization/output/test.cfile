@@ -56,7 +56,7 @@ occfilter add Edge Wire
 undogeom enter
 genselect occobject add occobject  3e
 genselect occobject add occobject  4e
-extrude 2 3e 4 -1 0.0 20 0 0 0 0 0 0 10
+extrude 2 3e 4 -1 0.0 20 0 0 0 0 0 0 10.0
 undogeom leave
 genselect target occobject
 occfilter clear
@@ -73,21 +73,21 @@ occfilter clear
 occfilter add Node Vertex Face RefPoint RefPlane
 occfilter clear
 occfilter add Node Vertex RefPoint
-line param  150 150 30 150 0.0 30
+line param  120 120 30 120 0.0 30
 occfilter clear
 occfilter add Node Vertex Face RefPoint RefPlane
 occfilter clear
 occfilter add Node Vertex RefPoint
-line param  150 150 30 0 150 30
+line param  120 120 30 0 120 30
 genselect occobject add occobject  20v
 genselect occobject add occobject  7v
 genselect occobject add occobject  18v
 genselect occobject add occobject  5v
 genselect occobject add occobject  7v
-line param  0.0 150 30 0.0 60 30
+line param  0.0 120 30 0.0 60 30
 genselect occobject add occobject  18v
 genselect occobject add occobject  5v
-line param  150 0.0 30 60 0.0 30
+line param  120 0.0 30 60 0.0 30
 occfilter clear
 occfilter add Node Vertex RefPoint
 undogeom leave
@@ -115,7 +115,9 @@ genselect target occobject
 occfilter clear
 occfilter add Face
 genselect whole
-occmesh mesh 1, 1 0 0 1 3 0.5 20 0 0 0
+occmesh mesh 1, 1 0 0 2 6 1 20 0 0 0
+occmesh reject
+occmesh mesh 1, 1 0 0 2 6 1 20 0 0 0
 occmesh accept 2 0.0001 1 0
 genselect clear
 genselect clear
@@ -174,7 +176,7 @@ genselect occobject add occobject  18f
 genselect occobject add occobject  19f
 genselect occobject add occobject  16f
 genselect occobject add occobject  15f
-occmesh mesh 1, 1 0 0 6 2 1 20 0 0 0
+occmesh mesh 1, 1 0 0 1 3 0.5 20 0 0 0
 occmesh accept 1 0.0001 1 0
 genselect clear
 genselect clear
@@ -184,7 +186,7 @@ genselect target occobject
 occfilter clear
 occfilter add Face
 genselect occobject add occobject  12f
-occmesh mesh 1, 1 0 0 3 1 0.5 20 0 0 0
+occmesh mesh 1, 1 0 0 1 3 0.5 20 0 0 0
 occmesh accept 3 0.0001 1 0
 genselect clear
 genselect clear
