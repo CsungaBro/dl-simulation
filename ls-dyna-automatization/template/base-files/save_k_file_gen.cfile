@@ -1,6 +1,6 @@
 $# LS-PrePost command file created by LS-PrePost(R) V4.7.17 - 08Jul2020 -64bit-Window
 $# Created on Mar-17-2022 (13:37:59)
-open keyword "C:\Users\CsungaBro\Google Drive\TU Braunschweig\3. Semester\COURSE 0 - Studienarbeit\33-dl-sim\dl-simulation\ls-dyna-automatization\template\base-files\V1_160x180_MS2-2_FR0302_part_iso(1).k"
+open keyword "C:\Users\CsungaBro\Google Drive\TU Braunschweig\3. Semester\COURSE 0 - Studienarbeit\12-ls-dyna\test-7\V1_160x180_MS2-2_FR0302_part_iso(1).k"
 setnode
 genselect clear
 setnode off
@@ -56,14 +56,14 @@ occfilter add Edge Wire
 undogeom enter
 genselect occobject add occobject  3e
 genselect occobject add occobject  4e
-extrude 2 3e 4 -1 0.0 h2 0 0 0 0 0 0 10
+extrude 2 3e 4 -1 0.0 z2 0 0 0 0 0 0 10
 undogeom leave
 genselect target occobject
 occfilter clear
 occfilter add Edge Face
 undogeom enter
 genselect occobject add occobject  2f
-sldfillet 0 r2_b 1 2f
+sldfillet 0 ra2 1 2f
 undogeom leave
 genselect target occobject
 occfilter clear
@@ -73,21 +73,21 @@ occfilter clear
 occfilter add Node Vertex Face RefPoint RefPlane
 occfilter clear
 occfilter add Node Vertex RefPoint
-line param  a2 b2 z2 a2 0.0 z2
+line param  a2 b2 z2_abs a2 0.0 z2_abs
 occfilter clear
 occfilter add Node Vertex Face RefPoint RefPlane
 occfilter clear
 occfilter add Node Vertex RefPoint
-line param  a2 b2 z2 0 b2 z2
+line param  a2 b2 z2_abs 0 b2 z2_abs
 genselect occobject add occobject  20v
 genselect occobject add occobject  7v
 genselect occobject add occobject  18v
 genselect occobject add occobject  5v
 genselect occobject add occobject  7v
-line param  0.0 b2 z2 0.0 d2 z2
+line param  0.0 b2 z2_abs 0.0 d2 z2_abs
 genselect occobject add occobject  18v
 genselect occobject add occobject  5v
-line param  a2 0.0 z2 c2 0.0 z2
+line param  a2 0.0 z2_abs c2 0.0 z2_abs
 occfilter clear
 occfilter add Node Vertex RefPoint
 undogeom leave
@@ -109,7 +109,7 @@ occfilter clear
 occfilter add Edge Face
 undogeom enter
 genselect occobject add occobject  26e
-sldfillet 0 r2_u 1 26e
+sldfillet 0 rc2 1 26e
 undogeom leave
 genselect target occobject
 occfilter clear
@@ -147,7 +147,7 @@ occfilter clear
 occfilter add Node Vertex Face RefPoint RefPlane
 occfilter clear
 occfilter add Vertex Edge Face RefPlane RefTrihedron
-plane 0 0 0 a1 0 b1 z1
+plane 0 0 0 a1 0 a2 z1_abs
 undogeom leave
 genselect target occobject
 occfilter clear
@@ -155,14 +155,14 @@ occfilter add Edge Wire
 undogeom enter
 genselect occobject add occobject  59e
 genselect occobject add occobject  60e
-extrude 2 59e 60 -1 0.0 h1 0 0 0 0 0 0 10.0
+extrude 2 59e 60 -1 0.0 z1 0 0 0 0 0 0 10.0
 undogeom leave
 genselect target occobject
 occfilter clear
 occfilter add Edge Face
 undogeom enter
 genselect occobject add occobject  14f
-sldfillet 0 r1 1 14f
+sldfillet 0 ra1 1 14f
 undogeom leave
 genselect target occobject
 occfilter clear

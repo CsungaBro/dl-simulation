@@ -1,6 +1,6 @@
 $# LS-PrePost command file created by LS-PrePost(R) V4.7.17 - 08Jul2020 -64bit-Window
 $# Created on Mar-17-2022 (13:37:59)
-open keyword "C:\Users\CsungaBro\Google Drive\TU Braunschweig\3. Semester\COURSE 0 - Studienarbeit\12-ls-dyna\test-7\V1_160x180_MS2-2_FR0302_part_iso(1).k"
+open keyword "C:\Users\CsungaBro\Google Drive\TU Braunschweig\3. Semester\COURSE 0 - Studienarbeit\33-dl-sim\dl-simulation\ls-dyna-automatization\template\base-files\V1_160x180_MS2-2_FR0302_part_iso(1).k"
 setnode
 genselect clear
 setnode off
