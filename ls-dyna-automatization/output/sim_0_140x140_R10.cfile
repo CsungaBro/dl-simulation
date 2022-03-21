@@ -1,0 +1,368 @@
+$# LS-PrePost command file created by LS-PrePost(R) V4.7.17 - 08Jul2020 -64bit-Window
+$# Created on Mar-17-2022 (13:37:59)
+open keyword "C:\Users\CsungaBro\Google Drive\TU Braunschweig\3. Semester\COURSE 0 - Studienarbeit\33-dl-sim\dl-simulation\ls-dyna-automatization\template\base-files\V1_160x180_MS2-2_FR0302_part_iso(1).k"
+setnode
+genselect clear
+setnode off
+setnode readlist 1
+setnode show  1
+genselect clear
+setnode off
+setnode readlist 1
+setnode show  1 2 3
+clearent NodeSet all
+setnode all
+setnode delete 1 2 3 
+setshell
+clearent ShellSet all
+genselect clear
+setshell off
+setshell readlist 1
+setshell show  1
+clearent ShellSet all
+genselect clear
+setshell off
+setshell readlist 1
+setshell show  1
+setshell delete 1 
+partdata readlist 1 
+clearid part
+partdata readlist 1  2  3 
+clearid part
+partdata readlist  1  2  3 
+clearid part
+partdata delete 1 2 3 
+delelement accept
+delelement unrefn 0
+cemptymodel
+genselect target occobject
+occfilter clear
+occfilter add Vertex Edge Face RefPlane RefTrihedron
+undogeom enter
+occfilter clear
+occfilter add Node Vertex Face RefPoint RefPlane
+occfilter clear
+occfilter add Vertex Edge Face RefPlane RefTrihedron
+plane 0 0 0 50 0 50 10
+undogeom leave
+genselect target occobject
+occfilter clear
+occfilter add Node Vertex Edge Wire RefPoint
+undogeom enter
+undogeom leave
+genselect target occobject
+occfilter clear
+occfilter add Edge Wire
+undogeom enter
+genselect occobject add occobject  3e
+genselect occobject add occobject  4e
+extrude 2 3e 4 -1 0.0 20 0 0 0 0 0 0 10.0
+undogeom leave
+genselect target occobject
+occfilter clear
+occfilter add Edge Face
+undogeom enter
+genselect occobject add occobject  2f
+sldfillet 0 10 1 2f
+undogeom leave
+genselect target occobject
+occfilter clear
+occfilter add Node Vertex RefPoint
+undogeom enter
+occfilter clear
+occfilter add Node Vertex Face RefPoint RefPlane
+occfilter clear
+occfilter add Node Vertex RefPoint
+line param  140 140 30 140 0.0 30
+occfilter clear
+occfilter add Node Vertex Face RefPoint RefPlane
+occfilter clear
+occfilter add Node Vertex RefPoint
+line param  140 140 30 0 140 30
+genselect occobject add occobject  20v
+genselect occobject add occobject  7v
+genselect occobject add occobject  18v
+genselect occobject add occobject  5v
+genselect occobject add occobject  7v
+line param  0.0 140 30 0.0 50 30
+genselect occobject add occobject  18v
+genselect occobject add occobject  5v
+line param  140 0.0 30 50 0.0 30
+occfilter clear
+occfilter add Node Vertex RefPoint
+undogeom leave
+genselect target occobject
+occfilter clear
+occfilter add Edge Wire
+undogeom enter
+genselect occobject add occobject  26e
+genselect occobject add occobject  28e
+genselect occobject add occobject  21e
+genselect occobject add occobject  31e
+genselect occobject add occobject  30e
+genselect occobject add occobject  29e
+genselect occobject add occobject  32e
+fillplane 0 0 26e 28 21 31 30 29 32
+undogeom leave
+genselect target occobject
+occfilter clear
+occfilter add Edge Face
+undogeom enter
+genselect occobject add occobject  26e
+sldfillet 0 5 1 26e
+undogeom leave
+genselect target occobject
+occfilter clear
+occfilter add Face
+genselect whole
+occmesh mesh 1, 1 0 0 2 6 1 20 0 0 0
+occmesh reject
+occmesh mesh 1, 1 0 0 2 6 1 20 0 0 0
+occmesh accept 2 0.0001 1 0
+genselect clear
+genselect clear
+occfilter clear
+occfilter add Face
+genselect target occobject
+occfilter clear
+occfilter add Vertex Edge Face RefPlane RefTrihedron
+undogeom enter
+occfilter clear
+occfilter add Node Vertex Face RefPoint RefPlane
+occfilter clear
+occfilter add Vertex Edge Face RefPlane RefTrihedron
+occfilter clear
+occfilter add Node Vertex Face RefPoint RefPlane
+occfilter clear
+occfilter add Vertex Edge Face RefPlane RefTrihedron
+occfilter clear
+occfilter add Node Vertex Face RefPoint RefPlane
+occfilter clear
+occfilter add Vertex Edge Face RefPlane RefTrihedron
+plane 0 0 0 80 0 80 31
+undogeom leave
+genselect target occobject
+occfilter clear
+occfilter add Vertex Edge Face RefPlane RefTrihedron
+undogeom enter
+occfilter clear
+occfilter add Node Vertex Face RefPoint RefPlane
+occfilter clear
+occfilter add Vertex Edge Face RefPlane RefTrihedron
+plane 0 0 0 48 0 48 33
+undogeom leave
+genselect target occobject
+occfilter clear
+occfilter add Edge Wire
+undogeom enter
+genselect occobject add occobject  59e
+genselect occobject add occobject  60e
+extrude 2 59e 60 -1 0.0 15 0 0 0 0 0 0 10.0
+undogeom leave
+genselect target occobject
+occfilter clear
+occfilter add Edge Face
+undogeom enter
+genselect occobject add occobject  14f
+sldfillet 0 10 1 14f
+undogeom leave
+genselect target occobject
+occfilter clear
+occfilter add Face
+genselect occobject add occobject  13f
+genselect occobject add occobject  17f
+genselect occobject add occobject  14f
+genselect occobject add occobject  18f
+genselect occobject add occobject  19f
+genselect occobject add occobject  16f
+genselect occobject add occobject  15f
+occmesh mesh 1, 1 0 0 1 3 0.5 20 0 0 0
+occmesh accept 1 0.0001 1 0
+genselect clear
+genselect clear
+occfilter clear
+occfilter add Face
+genselect target occobject
+occfilter clear
+occfilter add Face
+genselect occobject add occobject  12f
+occmesh mesh 1, 1 0 0 1 3 0.5 20 0 0 0
+occmesh accept 3 0.0001 1 0
+genselect clear
+genselect clear
+occfilter clear
+occfilter add Face
+genselect clear
+genselect clear
+assembly del shape 1
+KEYWORD INPUT 1
+*PART
+$#                                                                         title
+Stempel
+$#     pid     secid       mid     eosid      hgid      grav    adpopt      tmid
+         1         1         1         0         0         0         0         0
+*SECTION_SHELL_TITLE
+Stempel
+$#   secid    elform      shrf       nip     propt   qr/irid     icomp     setyp
+         1         2       1.0         2       1.0         0         0         1
+$#      t1        t2        t3        t4      nloc     marea      idof    edgset
+       0.1       0.1       0.1       0.1      -1.0       0.0       0.0         0
+*MAT_RIGID_TITLE
+Stempel
+$#     mid        ro         e        pr         n    couple         m     alias
+         17.83000E-6     207.0       0.3       0.0       0.0       0.0          
+$#     cmo      con1      con2    
+       1.0         4         7
+$#lco or a1        a2        a3        v1        v2        v3  
+       0.0       0.0       0.0       0.0       0.0       0.0
+*END
+keyword updatekind
+PART_PART
+KEYWORD INPUT 2
+*PART
+$#                                                                         title
+Matrize
+$#     pid     secid       mid     eosid      hgid      grav    adpopt      tmid
+         2         2         2         0         0         0         0         0
+*SECTION_SHELL_TITLE
+Matrize
+$#   secid    elform      shrf       nip     propt   qr/irid     icomp     setyp
+         2         2       1.0         2       1.0         0         0         1
+$#      t1        t2        t3        t4      nloc     marea      idof    edgset
+       0.1       0.1       0.1       0.1       1.0       0.0       0.0         0
+*MAT_RIGID_TITLE
+Matrize
+$#     mid        ro         e        pr         n    couple         m     alias
+         27.83000E-6     207.0       0.3       0.0       0.0       0.0          
+$#     cmo      con1      con2    
+       1.0         7         7
+$#lco or a1        a2        a3        v1        v2        v3  
+       0.0       0.0       0.0       0.0       0.0       0.0
+*END
+keyword updatekind
+PART_PART
+KEYWORD INPUT 3
+*PART
+$#                                                                         title
+Organoblech
+$#     pid     secid       mid     eosid      hgid      grav    adpopt      tmid
+         3         3         3         0         0         0         0         0
+*SECTION_SHELL_TITLE
+Organoblech
+$#   secid    elform      shrf       nip     propt   qr/irid     icomp     setyp
+         3        16       1.0         4       1.0        -1         0         1
+$#      t1        t2        t3        t4      nloc     marea      idof    edgset
+       2.0       2.0       2.0       2.0       0.0       0.0       0.0         0
+*MAT_REINFORCED_THERMOPLASTIC_TITLE
+PA6/GF47%
+$#     mid        ro        em      lcem       prm     lcprm    lcsigy      beta
+         31.12000E-6     0.001         0      0.39         0         0       0.0
+$#    nfib      aopt        xp        yp        zp        a1        a2        a3
+         2       3.0       0.0       0.0       0.0       0.0       0.0       0.0
+$#      v1        v2        v3        d1        d2        d3     mangl     
+       0.0       1.0       0.0       0.0       0.0       0.0       0.0
+$#    idf1     alph1       ef1     lcef1     g23_1     g31_1     
+         1       0.0       0.0        40      0.34      0.34
+$#     g12     lcg12    aloc12    gloc12    meth12      
+       0.0        41       0.0       0.0         2
+$#    idf2     alph2       ef2     lcef2     g23_2     g31_2     
+         2      90.0       0.0        40      0.34      0.34
+$#     g23     lcg23    aloc23    gloc23    meth23      
+       0.0         0       0.0       0.0         0
+$#    idf3     alph3       ef3     lcef3     g23_3     g31_3     
+         0       0.0       0.0         0       0.0       0.0
+$#   postv     
+        15
+*END
+keyword updatekind
+PART_PART
+setshell
+clearent ShellSet all
+clearent ShellSet all
+setnode
+clearent NodeSet all
+-M 3
+-M 2
+genselect target node
+genselect clear
+genselect clear
+loadstate 1;
+loadquat 0.000000 0.000000 0.000000 1.000000;
+loadgrot 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 ;
+loadeyepos 0.000000 0.000000 0.000000;
+loadupvect 0.000000 1.000000 0.000000;
+genselect node add region in 0.254860 0.555678 0.504860 0.037486
+setnode createset 1 1 0 0 0 0 
+genselect clear
+-M 1
++M 2
+setnode none
+genselect target node
+genselect clear
+genselect clear
+loadstate 1;
+loadquat 0.000000 0.000000 0.000000 1.000000;
+loadgrot 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 ;
+loadeyepos 0.000000 0.000000 0.000000;
+loadupvect 0.000000 1.000000 0.000000;
+genselect node add region in 0.262959 0.904079 0.686285 0.024256
+setnode createset 2 1 0 0 0 0 
+genselect clear
+setnode none
+genselect target node
+genselect clear
+genselect clear
++M 3
+-M 2
+loadstate 1;
+loadquat 0.000000 0.000000 0.000000 1.000000;
+loadgrot 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 ;
+loadeyepos 0.000000 0.000000 0.000000;
+loadupvect 0.000000 1.000000 0.000000;
+genselect node add region in 0.248380 0.674752 0.605832 0.051819
+setnode createset 3 1 0 0 0 0 
+genselect clear
+setnode none
+setshell
+genselect target shell
+genselect clear
+genselect clear
+loadstate 1;
+loadquat 0.000000 0.000000 0.000000 1.000000;
+loadgrot 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 ;
+loadeyepos 0.000000 0.000000 0.000000;
+loadupvect 0.000000 1.000000 0.000000;
+genselect shell add region in 0.252160 0.668137 0.596652 0.038589
+setshell createset 1 1 0 0 0 0 
+genselect clear
+setshell
+genselect target shell
+genselect clear
+genselect clear
+genselect target shell
+genselect clear
+genselect clear
+setshell none
++M 1
++M 2
+KEYWORD INPUT 1
+*DATABASE_HISTORY_SHELL_SET
+$#     id1       id2       id3       id4       id5       id6       id7       id8
+         1         0         0         0         0         0         0         0
+*END
+keyword updatekind
+DATABASE_HISTORY_SHELL_SET
+elemcheck shell init
+elemcheck shell init
+modelcheck checkgeneral
+selectentity getalllabel
+selectentity getalllabel
+selectentity getalllabel
+modelcheck checkgeneral
+selectentity getalllabel
+selectentity getalllabel
+selectentity getalllabel
+inipene contactoff
+selectentity getalllabel
+genselect clear
+
