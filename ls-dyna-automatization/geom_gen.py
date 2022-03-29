@@ -11,7 +11,10 @@ class GeometricParameters():
     def __init__(self):
         self.main_parameters_range = {
             "number_of_simulations" : 1
+            # "z2_int" = 5-30,
+            # "ra2_int" = ~2/3/5-30
         }
+        #hist 23
         self.main_parameters = {
         # base parameters
         "z0" : 10,
@@ -130,3 +133,8 @@ if __name__ == "__main__":
     ONG.output_path_generator()
     M = CFileHandling(input_file, P.all_parameters_container, ONG.output_names)
     M.generate_all_file()
+
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# TODO
+# ->
