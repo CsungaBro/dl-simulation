@@ -365,4 +365,9 @@ selectentity getalllabel
 inipene contactoff
 selectentity getalllabel
 genselect clear
-
+genselect clear
+save keywordabsolute 0
+save keywordbylongfmt 0
+save keywordbyi10fmt 0
+save outversion 11
+save keyword "C:\Users\CsungaBro\Google Drive\TU Braunschweig\3. Semester\COURSE 0 - Studienarbeit\33-dl-sim\dl-simulation\ls-dyna-automatization\output\k_files\01\plsss.k"
