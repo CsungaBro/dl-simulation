@@ -1,5 +1,5 @@
 $# LS-PrePost command file created by LS-PrePost(R) V4.7.17 - 08Jul2020 -64bit-Window
-$# Created on Mar-29-2022 (21:17:14)
+$# Created on Mar-30-2022 (10:13:45)
 open keyword "C:\Users\CsungaBro\Google Drive\TU Braunschweig\3. Semester\COURSE 0 - Studienarbeit\33-dl-sim\dl-simulation\ls-dyna-automatization\template\base-files\V1_160x180_MS2-2_FR0302_part_iso(1).k"
 setnode
 genselect clear
@@ -286,15 +286,9 @@ modelcheck checkgeneral
 selectentity getalllabel
 selectentity getalllabel
 selectentity getalllabel
-selectentity getalllabel
-selectentity getalllabel
-selectentity getalllabel
-modelcheck checkgeneral
-selectentity getalllabel
-selectentity getalllabel
-selectentity getalllabel
 selectentity getalllabelsave keywordabsolute 0
 save keywordbylongfmt 0
 save keywordbyi10fmt 0
 save outversion 11
-save keyword "C:\Users\CsungaBro\Documents\code\dl-simulation\ls-dyna-automatization\output\k_files\test2\test2.k"save keywordabsolute 0
+save keyword "C:\Users\CsungaBro\Documents\code\dl-simulation\ls-dyna-automatization\output\k_files\test2\test2.k"
+exit

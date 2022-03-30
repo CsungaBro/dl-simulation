@@ -293,15 +293,11 @@ modelcheck checkgeneral
 selectentity getalllabel
 selectentity getalllabel
 selectentity getalllabel
-selectentity getalllabel
-selectentity getalllabel
-selectentity getalllabel
-modelcheck checkgeneral
-selectentity getalllabel
-selectentity getalllabel
-selectentity getalllabel
 selectentity getalllabelsave keywordabsolute 0
 save keywordbylongfmt 0
 save keywordbyi10fmt 0
 save outversion 11
-save keyword "C:\Users\CsungaBro\Docu
+save keyword "C:\Users\CsungaBro\Documents\code\dl-simulation\ls-dyna-automatization\output\k_files\test2\test2.k"
+Finished reading command file!
+exit
+Save Config. parameters to file C:\Users\CsungaBro\AppData\Roaming\LSTC\LS-PrePost4.7\lsppconf

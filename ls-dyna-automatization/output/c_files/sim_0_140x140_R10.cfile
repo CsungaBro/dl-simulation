@@ -353,29 +353,7 @@ $#     id1       id2       id3       id4       id5       id6       id7       id8
 keyword updatekind
 DATABASE_HISTORY_SHELL_SET
 elemcheck shell init
-elemcheck shell init
-modelcheck checkgeneral
-selectentity getalllabel
-selectentity getalllabel
-selectentity getalllabel
-modelcheck checkgeneral
-selectentity getalllabelsave keywordabsolute 0
-save keywordbylongfmt 0
-save keywordbyi10fmt 0
-save outversion 11
-save keyword "C:\Users\CsungaBro\Documents\code\dl-simulation\ls-dyna-automatization\output\k_files\sim_0_140x140_R10\sim_0_140x140_R10.k"save keywordabsolute 0
-save keywordbylongfmt 0
-save keywordbyi10fmt 0
-save outversion 11
-save keyword "C:\Users\CsungaBro\Documents\code\dl-simulation\ls-dyna-automatization\output\k_files\sim_0_140x140_R10\sim_0_140x140_R10.k"save keywordabsolute 0
-save keywordbylongfmt 0
-save keywordbyi10fmt 0
-save outversion 11
-save keyword "C:\Users\CsungaBro\Documents\code\dl-simulation\ls-dyna-automatization\output\k_files\sim_0_140x140_R10\sim_0_140x140_R10.k"save keywordabsolute 0
-save keywordbylongfmt 0
-save keywordbyi10fmt 0
-save outversion 11
-save keyword "C:\Users\CsungaBro\Documents\code\dl-simulation\ls-dyna-automatization\output\k_files\sim_0_140x140_R10\sim_0_140x140_R10.k"save keywordabsolute 0
+elemcheck shell initsave keywordabsolute 0
 save keywordbylongfmt 0
 save keywordbyi10fmt 0
 save outversion 11

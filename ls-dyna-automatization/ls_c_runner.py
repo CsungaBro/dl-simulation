@@ -53,6 +53,7 @@ class FileManipulator:
 class PowershellRunner:
     def __init__(self, FileManipulator):
         self.lspp_powershell_env_path = "D:\\Program Files\\ANSYS 2020R2 LS-DYNA Student 12.0.0\\LS-DYNA\\env.ps1"
+        self.lspp_powershell_env_dir_path = os.path.dirname(self.lspp_powershell_env_path)
         self.current_path = "C:\\Users\\CsungaBro\\Documents\\code\\dl-simulation\\ls-dyna-automatization"
         self.lspp_env_command = "Set-Alias lspp $ENV:ANSYS_STUDENT_LSDYNA_LSPREPOST_PATH"
         self.lsrun_env_command = "Set-Alias lsrun $ENV:ANSYS_STUDENT_LSDYNA_LSRUN_PATH"
@@ -61,9 +62,9 @@ class PowershellRunner:
         self.lsrun_first_in = False
 
     def lspp_powershell_maker(self, c_file_path):
-        path_of_lspp_powershell = "lssp_powershell.ps1"
+        path_of_lspp_powershell = "lspp_powershell.ps1"
         with open(path_of_lspp_powershell, "w") as fsp:
-            fsp.write(r'cd "{}"'.format(self.lspp_powershell_env_path))
+            fsp.write(r'cd "{}"'.format(self.lspp_powershell_env_dir_path))
             fsp.write("\n")
             fsp.write(r'{}'.format(self.lspp_env_command))
             fsp.write("\n")
@@ -74,18 +75,19 @@ class PowershellRunner:
 
     def lsrun_powershell_maker(self, k_file_path):
         path_of_lsrun_powershell = "lsrun_powershell.ps1"
+        k_file_full_path = os.path.abspath(k_file_path)
         with open(path_of_lsrun_powershell, "w") as fsp:
-            fsp.write(r'cd "{}"'.format(self.lspp_powershell_env_path))
+            fsp.write(r'cd "{}"'.format(self.lspp_powershell_env_dir_path))
             fsp.write("\n")
-            fsp.write(r'{}'.format(self.lspp_env_command))
+            fsp.write(r'{}'.format(self.lsrun_env_command))
             fsp.write("\n")
             fsp.write(r'cd "{}"'.format(self.current_path))
             fsp.write("\n")
             if not self.lsrun_first_in:
-                fsp.write(r'lsrun {} -submit'.format(k_file_path))
+                fsp.write(r'lsrun {} -submit -cleanjobs'.format(k_file_full_path))
                 self.lsrun_first_in = True
             else:
-                fsp.write(r'lsrun {} -submit -wait -1'.format(k_file_path))
+                fsp.write(r'lsrun {} -submit -wait -1'.format(k_file_full_path))
         return path_of_lsrun_powershell
 
     def lspp_command_runner(self, paths):
@@ -93,8 +95,9 @@ class PowershellRunner:
         self.FileManipulator.c_file_manipulator(c_file_path, k_file_path)
         path_of_lspp_powershell = self.lspp_powershell_maker(c_file_path)
         path_of_lsrun_powershell = self.lsrun_powershell_maker(k_file_path)
-        completed1 = subprocess.run(["powershell", ".\{}".format(path_of_lspp_powershell)], capture_output=True)
-        completed1 = subprocess.run(["powershell", ".\{}".format(path_of_lspp_powershell)], capture_output=True)  
+        #completed1 = subprocess.run(["powershell", ".\{}".format(path_of_lspp_powershell)], capture_output=True)
+        completed1 = subprocess.run(["powershell", ".\{}".format(path_of_lsrun_powershell)], capture_output=True)
+        print(completed1)
         self.k_file_path_container.append(k_file_path)
 
 
