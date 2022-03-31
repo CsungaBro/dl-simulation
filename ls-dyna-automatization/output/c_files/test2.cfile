@@ -359,8 +359,4 @@ selectentity getalllabelsave keywordabsolute 0
 save keywordbylongfmt 0
 save keywordbyi10fmt 0
 save outversion 11
-save keyword "C:\Users\CsungaBro\Documents\code\dl-simulation\ls-dyna-automatization\output\k_files\test2\test2.k"save keywordabsolute 0
-save keywordbylongfmt 0
-save keywordbyi10fmt 0
-save outversion 11
 save keyword "C:\Users\CsungaBro\Documents\code\dl-simulation\ls-dyna-automatization\output\k_files\test2\test2.k"
