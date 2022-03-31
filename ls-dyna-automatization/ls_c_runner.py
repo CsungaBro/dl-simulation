@@ -36,8 +36,8 @@ class FileHandler:
 
 
 class FileManipulator:
-    def __init__(self):
-        self.save_part = "template\\save_temp.cfile"
+    def __init__(self, save_part):
+        self.save_part = save_part
 
     def c_file_save_adder(self, c_file, k_file):
         with open(c_file,"a") as fr, open(self.save_part, "r") as fs:
@@ -118,7 +118,7 @@ class ScriptRunner:
         for files in range(self.number_of_files):
             paths = self.FileHandler.files_preper()
             c_file_path, k_file_path = paths[0], paths[1]
-            # self.FileManipulator.c_file_save_adder(c_file_path, k_file_path)
+            self.FileManipulator.c_file_save_adder(c_file_path, k_file_path)
             self.PowershellRunner.lsdyna_command_runner(c_file_path, k_file_path)
         self.PowershellRunner.lsrun_command_runner()
 
@@ -127,7 +127,7 @@ if __name__ == "__main__":
     c_files_path = "output\\c_files"
     k_files_path = "output\\k_files"
     FH = FileHandler(c_files_path, k_files_path)
-    FM = FileManipulator()
+    FM = FileManipulator("template\\save_temp.cfile")
     PR = PowershellRunner()
     SC = ScriptRunner(FH.c_files_to_prep, FH, PR, FM)
     SC.k_file_generator()
