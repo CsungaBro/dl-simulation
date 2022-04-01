@@ -45,6 +45,9 @@ class GeometricParameters():
         self.all_parameters_container = []
 
     def calculate_main_parameters(self, var_1, var_2):
+        """
+        Calculates the main parameters based on the range given in the "main_parameters_range"
+        """
         if self.main_parameters_range["number_of_simulations"] == 1:
             self.main_parameters["h2"]=self.main_parameters_range["h2"][0]
             self.main_parameters["r2_b"]=self.main_parameters_range["r2_b"][0]
@@ -56,6 +59,11 @@ class GeometricParameters():
             self.main_parameters["r2_b"]=self.main_parameters_range["r2_b"][0]+var_2*step_r2_b
 
     def check_if_doable_geom(self):
+        """
+        Checks if the geometry with the given parameters is doable
+        ->If the sum of the two radius is smaller then the height of the Matrice
+        -> If the radius in the "Stempel" larger then 0
+        """
         sum_radius = self.main_parameters["r2_b"]+self.fix_parameters["r2_u"]
 
         if sum_radius+2 >= self.main_parameters["h2"] or self.derived_parameters["r1"] <=0:
@@ -64,6 +72,9 @@ class GeometricParameters():
             return True
 
     def calculate_derived_parameters(self):
+        """
+        Calculates the derived parameters based on the main parameters
+        """
         self.derived_parameters["h1"] = self.main_parameters["h2"]+5
         self.derived_parameters["z1"] = self.main_parameters["h2"]+self.fix_parameters["z0"]+self.fix_parameters["thickness"]
         self.derived_parameters["a1"] = self.fix_parameters["c2"]-self.fix_parameters["thickness"]
@@ -80,6 +91,9 @@ class GeometricParameters():
         self.derived_parameters["z3"] = self.main_parameters["h2"]+self.fix_parameters["z0"]+self.fix_parameters["thickness"]/2
     
     def calculate_all_parameters(self, var_1, var_2):
+        """
+        Calculates all of the parameters, than if the geometry is doable saves it in a container
+        """
         self.all_parameters = {}
         self.calculate_main_parameters(var_1, var_2)
         self.calculate_derived_parameters()
@@ -89,6 +103,9 @@ class GeometricParameters():
             self.all_parameters.update(self.fix_parameters)
 
     def generate_all_parameters(self):
+        """
+        Generates all of the variations of the parameters for the simulation
+        """
         for var_1 in range(self.main_parameters_range["number_of_simulations"]):
             for var_2 in range(self.main_parameters_range["number_of_simulations"]):
                 self.calculate_all_parameters(var_1, var_2)
@@ -116,7 +133,10 @@ class OutputNameGenerator:
             self.output_names.append(os.path.join(self.output_path, file_name))
 
 
-class KFileHandling():
+class KFileSaveHandling():
+    """
+    Edits the K-File's "R way1" Paramater
+    """
     def __init__(self, all_parameters_cointainer, output_names):
         self.all_parameters_cointainer = all_parameters_cointainer
         self.output_names = output_names
@@ -124,9 +144,9 @@ class KFileHandling():
     def generate_all_k_file(self):
         for output_path, parameters in zip(self.output_names, self.all_parameters_cointainer):
             self.parameters = parameters
-            self.generate_c_file(output_path)
+            self.generate_k_file(output_path)
 
-    def generate_c_file(self, output_path):
+    def generate_k_file(self, output_path):
         content = ""
         with open(output_path,"r") as f_r:
             for line in f_r:
@@ -189,7 +209,7 @@ if __name__ == "__main__":
     ONG.output_path_generator()
     CFH = CFileHandling(input_file, P.all_parameters_container, ONG.output_names)
     CFH.generate_all_c_file()
-    KFH = KFileHandling(P.all_parameters_container, ONG.output_names)
+    KFH = KFileSaveHandling(P.all_parameters_container, ONG.output_names)
     KFH.generate_all_k_file()
 
 #------------------------------------------------------------------------------
