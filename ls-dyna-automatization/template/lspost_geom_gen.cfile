@@ -1,0 +1,16 @@
+$# LS-PrePost command file created by LS-PrePost(R) V4.7.17 - 08Jul2020 -64bit-Window
+$# Created on Apr-01-2022 (11:23:23)
+bgstyle fade
+open keyword "C:\Users\CsungaBro\Documents\code\dl-simulation\ls-dyna-automatization\output\k_files\sim_0_120x120x27.5_R6.5\sim_0_120x120x27.5_R6.5.k"
+featuretree show 1 all
+-M 2
+-M 3
++M 2
++M 3
+assembly off fem 1
++M 1
+-M 1
++M 2
+partdata readlist 2 
+clearid part
+geomag savemodel stl whole visibleonly "C:\Users\CsungaBro\Documents\code\dl-simulation\ls-dyna-automatization\output\k_files\sim_0_120x120x27.5_R6.5\test_stl.stl"

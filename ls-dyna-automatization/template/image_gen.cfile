@@ -1,0 +1,12 @@
+$# LS-PrePost command file created by LS-PrePost(R) V4.7.17 - 08Jul2020 -64bit-Window
+$# Created on Apr-01-2022 (10:19:13)
+open d3plot "C:\Users\CsungaBro\Documents\code\dl-simulation\ls-dyna-automatization\output\k_files\sim_0_120x120x27.5_R6.5\d3plot"
+ac
+state 25;
+-M 1
+-M 2
+ac
+fringe 1023
+pfringe
+background 0 0 0
+print png "C:\Users\CsungaBro\Documents\code\dl-simulation\ls-dyna-automatization\output\k_files\sim_0_120x120x27.5_R6.5\image_001.png" enlisted "OGL1x1" 

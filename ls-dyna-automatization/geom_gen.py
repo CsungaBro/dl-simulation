@@ -12,13 +12,10 @@ class GeometricParameters():
     def __init__(self):
         self.main_parameters_range = {
             "number_of_simulations" : 5, # BUG not sim but case in for the main params
-            # "z2_int" = 5-30,
-            # "ra2_int" = ~2/3/5-30
             # Matrize parameters
-            "h2" : [5,30],
-            "r2_b" : [2,20]
+            "h2" : [5,30],# "z2_int" = 5-30,
+            "r2_b" : [2,20], # "ra2_int" = ~2/3/5-30
             }
-            #hist 23
         self.simulations_currently_in_container = 0
         self.fix_parameters = {
             # base parameters
