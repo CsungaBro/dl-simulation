@@ -1,0 +1,142 @@
+graph TD
+    A[Input Parameters] --> B(GeometricParameters)
+    B --> |Generate All the Parameters| C(Information Handler)
+    C --> |Parameters Conatainer| D(Output Name Generator)
+    D --> |Generate the CFile Paths| C
+    F[CFile Path] --> D
+    C --> E(CFile Handling)
+    G[CFile Template Path] --> E
+    C --> I(FileHandler)
+    J[KFile Path]
+
+
+graph TD
+    A[Input Parameters]
+    B[CFile Path]
+    C[CFile Template Path]
+    D[KFile Path]
+    E(Information Handler)
+    A --> E
+    B --> E
+    C --> E
+    D --> E
+
+    F(GeometricParameters)
+    E --> |Input Parameters| F
+    F --> |Parameters Container| E
+
+    G(Output Name Generator)
+    E --> |Input Parameters + CFile Path| G
+    G --> |Parameters Container| E
+
+    I(CFile Handling)
+    E --> |Input Parameters + CFile Path + CFile Template Path| I
+    I --> |Parameters Container| E
+    H(FileHandler)
+    J(CFileManipulator)
+    K(PowershellRunner)
+    L(ScriptRunner)
+    M(KFileManipulator)
+
+#------------------------------------------------------------------
+graph TD
+    A[Input Parameters]
+    B[CFile Path]
+    C[CFile Template Path]
+    D[KFile Path]
+    S(CFile Pave Path)
+    E(Information Handler)
+    A --> E
+    B --> E
+    C --> E
+    D --> E
+    S --> E
+
+    F(GeometricParameters)
+    E --> |Input Parameters| F
+    F --> |Parameters Container| N(Information Handler)
+
+    G(Output Name Generator)
+    N --> |Input Parameters + CFile Path| G
+    G --> |Output Path| O(Information Handler)
+
+    I(CFile Handling)
+    O --> |Input Parameters + CFile Path + CFile Template Path| I
+    I --> |Parameters Container| P(Information Handler)
+
+
+    H(FileHandler)
+    P --> |CFile Path + KFile Path| H
+    H --> |KFile PAth| Q(Information Handler)
+
+
+    J(CFileManipulator)
+    Q --> |CFile Save Path| J
+    J --> T(Information Handler)
+
+    K(K File Generator)
+    T --> |CFile Path + KFile Path| K
+    K --> U(Information Handler)
+
+    M(KFile Manipulator)
+    U --> |CFile Path + Parameters Container| M
+    M --> X(Information Handler)
+
+    R(Simulation Generator)
+    X --> |KFile Path| R
+    R --> Y(Information Handler)
+
+    L(ScriptRunner)
+    Y --> |CFile Path + KFile Path| L
+    L --> Z(Information Handler)
+#------------------------------------------------------------------
+
+
+graph TD
+    A[Input Parameters]
+    B[CFile Path]
+    C[CFile Template Path]
+    D[KFile Path]
+    S(CFile Pave Path)
+    E(Information Handler)
+    A --> E
+    B --> E
+    C --> E
+    D --> E
+    S --> E
+
+    F(GeometricParameters)
+    E --> |Input Parameters| F
+    F --> |Parameters Container| E
+
+    G(Output Name Generator)
+    E --> |Input Parameters + CFile Path| G
+    G --> |Output Path| E
+
+    I(CFile Handling)
+    E --> |Input Parameters + CFile Path + CFile Template Path| I
+    I --> |Parameters Container| E
+
+    H(FileHandler)
+    E --> |CFile Path + KFile Path| H
+    H --> |KFile PAth| E
+
+
+    J(CFileManipulator)
+    E --> |CFile Save Path| J
+    J --> E
+
+    K(K File Generator)
+    E --> |CFile Path + KFile Path| K
+    K --> E
+    M(KFile Manipulator)
+    E --> |CFile Path + Parameters Container| M
+    M --> E
+
+    R(Simulation Generator)
+    E --> |KFile Path| R
+    R --> E
+
+    L(ScriptRunner)
+    E --> |CFile Path + KFile Path| L
+    L --> E        

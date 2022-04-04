@@ -5,3 +5,4 @@ ls-dyna-automatization/lspost.cfile
 ls-dyna-automatization/lspost.msg
 *ls-dyna-automatization/output
 ls-dyna-automatization/powershell_scripts/lsrun_powershell.ps1
+*ls-dyna-automatization/__pycache__

@@ -41,7 +41,7 @@ class FileHandler:
                 os.mkdir(k_dir)
 
 
-class FileManipulator:
+class CFileManipulator:
     """Ads a part for the to cfile, where it specifies the path for the .k Files  """
     def __init__(self, save_part):
         self.save_part = save_part
@@ -55,6 +55,86 @@ class FileManipulator:
                     fr.writelines(new_line)
                 else:
                     fr.writelines(line)
+
+
+class LSDynaGenerator:
+    def ____init__(self) -> None:
+        self.lspp_powershell_env_path = "D:\\Program Files\\ANSYS 2020R2 LS-DYNA Student 12.0.0\\LS-DYNA\\env.ps1"
+        self.lspp_powershell_env_dir_path = os.path.dirname(self.lspp_powershell_env_path)
+        self.current_path = "C:\\Users\\CsungaBro\\Documents\\code\\dl-simulation\\ls-dyna-automatization"
+
+
+class KFileGenerator:
+    def __init__(self) -> None:
+        self.lspp_powershell_env_path = "D:\\Program Files\\ANSYS 2020R2 LS-DYNA Student 12.0.0\\LS-DYNA\\env.ps1"
+        self.lspp_powershell_env_dir_path = os.path.dirname(self.lspp_powershell_env_path)
+        self.current_path = "C:\\Users\\CsungaBro\\Documents\\code\\dl-simulation\\ls-dyna-automatization"        
+        self.lspp_env_command = "Set-Alias lspp $ENV:ANSYS_STUDENT_LSDYNA_LSPREPOST_PATH"
+
+    def lspp_powershell_maker(self, c_file_path):
+        """
+        Creates a Powershell script with the Ls-PrePost enviromment
+        for the generation of the .k files
+        It creates a new script, but same file, for all of the .k files
+        """
+        path_of_lspp_powershell = "powershell_scripts\\lspp_powershell.ps1"
+        with open(path_of_lspp_powershell, "w") as fsp:
+            fsp.write(r'cd "{}"'.format(self.lspp_powershell_env_dir_path))
+            fsp.write("\n")
+            fsp.write(r'{}'.format(self.lspp_env_command))
+            fsp.write("\n")
+            fsp.write(r'cd "{}"'.format(self.current_path))
+            fsp.write("\n")
+            fsp.write(r'lspp c={} -nographics'.format(c_file_path))
+        return path_of_lspp_powershell
+
+    def lsrun_command_runner(self, c_file_path):
+        path_of_lspp_powershell = self.lspp_powershell_maker(c_file_path)
+        completed1 = subprocess.run(["powershell", ".\{}".format(path_of_lspp_powershell)], capture_output=True)        
+
+
+class SimulationGenerator:
+    def __init__(self) -> None:
+        self.lspp_powershell_env_path = "D:\\Program Files\\ANSYS 2020R2 LS-DYNA Student 12.0.0\\LS-DYNA\\env.ps1"
+        self.lspp_powershell_env_dir_path = os.path.dirname(self.lspp_powershell_env_path)
+        self.current_path = "C:\\Users\\CsungaBro\\Documents\\code\\dl-simulation\\ls-dyna-automatization"
+        self.lsrun_env_command = "Set-Alias lsrun $ENV:ANSYS_STUDENT_LSDYNA_LSRUN_PATH"
+        self.k_file_path_container = []
+        self.lsrun_first_in = False
+
+    def lsrun_powershell_maker(self, k_file_path):
+        """
+        Creates a Powershell script with the Ls-Run enviromment
+        for the running of the simulations
+        It Creates ONE script for all of the simulations
+        """        
+        self.path_of_lsrun_powershell = "powershell_scripts\\lsrun_powershell.ps1"
+        k_file_full_path = os.path.abspath(k_file_path)
+        mode = "w" if len(self.k_file_path_container) == 0 else "a"
+        with open(self.path_of_lsrun_powershell, mode) as fsp:
+            if len(self.k_file_path_container) == 0:
+                fsp.write(r'cd "{}"'.format(self.lspp_powershell_env_dir_path))
+                fsp.write("\n")
+                fsp.write(r'{}'.format(self.lsrun_env_command))
+                fsp.write("\n")
+                fsp.write(r'cd "{}"'.format(self.current_path))
+                fsp.write("\n")
+                fsp.write(r'lsrun {} -submit -cleanjobs'.format(k_file_full_path))
+                fsp.write("\n")
+                fsp.write("Start-Sleep 1")
+            else:
+                fsp.write("\n")
+                fsp.write(r'lsrun {} -submit -wait -1'.format(k_file_full_path))
+                fsp.write("\n")
+                fsp.write("Start-Sleep 1")
+
+    def lsrun_command_maker(self, k_file_path):
+        self.lsrun_powershell_maker(k_file_path)
+        self.k_file_path_container.append(k_file_path)
+
+    def lsrun_command_runner(self):
+        """runs the LS-Run script"""
+        completed1 = subprocess.Popen(["powershell", ".\{}".format(self.path_of_lsrun_powershell)])
 
 
 class PowershellRunner:
@@ -115,8 +195,8 @@ class PowershellRunner:
     def lsdyna_command_runner(self, c_file_path, k_file_path):
         """runs the PowerShell script generations and LS-PrePost scripts"""
         path_of_lspp_powershell = self.lspp_powershell_maker(c_file_path)
-        self.lsrun_powershell_maker(k_file_path)
         completed1 = subprocess.run(["powershell", ".\{}".format(path_of_lspp_powershell)], capture_output=True)
+        self.lsrun_powershell_maker(k_file_path)
         self.k_file_path_container.append(k_file_path)
 
     def lsrun_command_runner(self):
@@ -138,7 +218,7 @@ class ScriptRunner:
         for files in range(self.number_of_files):
             paths = self.FileHandler.files_preper()
             c_file_path, k_file_path = paths[0], paths[1]
-            self.FileManipulator.c_file_save_adder(c_file_path, k_file_path)
+            self.CFileManipulator.c_file_save_adder(c_file_path, k_file_path)
             self.PowershellRunner.lsdyna_command_runner(c_file_path, k_file_path)
         self.PowershellRunner.lsrun_command_runner()
 
@@ -146,8 +226,9 @@ class ScriptRunner:
 if __name__ == "__main__":
     c_files_path = "output\\c_files"
     k_files_path = "output\\k_files"
+    c_save_path = "template\\save_temp.cfile"
     FH = FileHandler(c_files_path, k_files_path)
-    FM = FileManipulator("template\\save_temp.cfile")
+    FM = CFileManipulator(c_save_path)
     PR = PowershellRunner()
     SC = ScriptRunner(FH.c_files_to_prep, FH, PR, FM)
     SC.k_file_generator()

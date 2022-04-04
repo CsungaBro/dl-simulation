@@ -9,12 +9,12 @@ class GeometricParameters():
     The main_parameters are generated from main_parameters_ranges with the number of simulations specified. 
     From the main_parameters the derived_parameters are generated. 
     """
-    def __init__(self):
+    def __init__(self, height_range, radius_range, number_of_simulation):
         self.main_parameters_range = {
-            "number_of_simulations" : 5, # BUG not sim but case in for the main params
+            "number_of_simulations" : number_of_simulation, # BUG not sim but case in for the main params
             # Matrize parameters
-            "h2" : [5,30],# "z2_int" = 5-30,
-            "r2_b" : [2,20], # "ra2_int" = ~2/3/5-30
+            "h2" : height_range,# "z2_int" = 5-30,
+            "r2_b" : radius_range, # "ra2_int" = ~2/3/5-30
             }
         self.simulations_currently_in_container = 0
         self.fix_parameters = {
@@ -146,6 +146,10 @@ class KFileSaveHandling():
             self.parameters = parameters
             self.generate_k_file(output_path)
 
+    def generate_give_k_file(self, k_file_path, count):
+        self.parameters = self.all_parameters_cointainer[count]
+        self.generate_k_file(k_file_path)        
+
     def generate_k_file(self, output_path):
         content = ""
         with open(output_path,"r") as f_r:
@@ -203,7 +207,11 @@ if __name__ == "__main__":
     input_file = "template\\save_2.cfile"
     output_path = "output\\c_files"
     
-    P = GeometricParameters()
+    height_range = [5,30]
+    radius_range = [2,20]
+    number_of_simulation = 5
+
+    P = GeometricParameters(height_range, radius_range, number_of_simulation)
     P.generate_all_parameters()
     ONG = OutputNameGenerator(output_path, P.all_parameters_container)
     ONG.output_path_generator()
