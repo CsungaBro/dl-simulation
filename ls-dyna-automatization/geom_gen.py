@@ -19,6 +19,7 @@ class GeometricParameters():
         self.simulations_currently_in_container = 0
         self.fix_parameters = {
             # base parameters
+            "formschraege" : 2, # Grad
             "thickness" : 2,
             "z0" : 10,
             # Stamp/Stempel parameters        
