@@ -1,6 +1,7 @@
 import geom_gen as gg
 import ls_c_runner as ls
-
+import os
+import shutil
 
 class InformationHandler:
     def __init__(self) -> None:
@@ -13,6 +14,23 @@ class InformationHandler:
         # self.c_file_template_path
         # self.k_dir_path
         # self.c_file_save_path
+
+
+class DirHandler:
+    def __init__(self, k_folder, c_folder) -> None:
+        self.k_folder = os.path.abspath(k_folder)
+        self.c_folder = os.path.abspath(c_folder)
+        self.dir_cleaner()
+        self.dir_maker()
+    
+    def dir_maker(self):
+        for folder in [self.k_folder, self.c_folder]:
+            os.makedirs(folder)
+
+    def dir_cleaner(self):
+        for folder in [self.k_folder, self.c_folder]:
+            if os.path.exists(folder):
+                shutil.rmtree(folder)
 
 
 class ScriptRunner:
@@ -46,6 +64,7 @@ if __name__ == "__main__":
     IH.c_file_template_path = "template\\save_2.cfile"
     IH.c_file_save_path = "template\\save_temp.cfile"
 
+    DH = DirHandler(IH.k_dir_path, IH.c_dir_path)
 
     P = gg.GeometricParameters(IH.height_range, IH.radius_range, IH.number_of_simulation)
     P.generate_all_parameters()
