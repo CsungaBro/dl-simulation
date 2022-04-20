@@ -161,7 +161,7 @@ class KFileSaveHandling():
 
     def process(self, line):
         if bool(re.search("R way1", line)):
-            return "R way1    {}  \n".format(self.parameters["z2"])
+            return "R way1    {}  \n".format(self.parameters["way1"])
         return line
 
 

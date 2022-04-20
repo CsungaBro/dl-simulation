@@ -1,7 +1,8 @@
-import geom_gen as gg
-import ls_c_runner as ls
+from pre_proc import geom_gen as gg
+from pre_proc import ls_c_runner as ls
 import os
 import shutil
+
 
 class InformationHandler:
     def __init__(self) -> None:
@@ -31,6 +32,20 @@ class DirHandler:
         for folder in [self.k_folder, self.c_folder]:
             if os.path.exists(folder):
                 shutil.rmtree(folder)
+
+
+class ParamaterTextGenerator:
+    def __init__(self, container) -> None:
+        self.path = "parameter_text.txt"
+        self.p_container = container
+
+    def generate_text_file(self):
+        with open(self.path, "w") as ft:
+            ft.write(f"key           =     value\n")
+            for count, files in enumerate(self.p_container):
+                ft.write(f"File:{count:2}.-----------------\n")
+                for key, value in files.items():
+                    ft.write(f"{key:13} = {value:9}\n")
 
 
 class ScriptRunner:
@@ -69,6 +84,9 @@ if __name__ == "__main__":
     P = gg.GeometricParameters(IH.height_range, IH.radius_range, IH.number_of_simulation)
     P.generate_all_parameters()
     IH.all_parameters_container = P.all_parameters_container
+
+    PTG = ParamaterTextGenerator(P.all_parameters_container)
+    PTG.generate_text_file()
 
     ONG = gg.OutputNameGenerator(IH.c_dir_path, IH.all_parameters_container)
     ONG.output_path_generator()
