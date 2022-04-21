@@ -1,7 +1,6 @@
 import os
 from re import search 
 import regex as re
-import ls_c_runner as ls
 
 class FileHandler:
     def __init__(self, k_folder_path, png_maker_path):
