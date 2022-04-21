@@ -13,7 +13,7 @@ class FileHandler:
         return [os.path.join(self.k_folder_path, folder) for folder in os.listdir(self.k_folder_path)]
 
 
-class CFileManipulator:
+class CFilePngManipulator:
     def __init__(self, png_maker_path):
         self.png_maker_path = png_maker_path
 
@@ -37,15 +37,3 @@ class CFileManipulator:
         if bool(re.search(search_2, line)):
             return new_line_2
         return line
-
-
-if __name__ == "__main__":
-    k_dir_path = "output\\k_files"
-    c_file_template_path = "template\image_gen.cfile"
-
-    FH = FileHandler(k_dir_path, c_file_template_path)
-    CFM = CFileManipulator(c_file_template_path)
-    KFG = ls.KFileGenerator()
-    for folder in FH.k_file_folders:
-        CFM.c_file_manipulation(folder)
-        KFG.lsrun_command_runner(CFM.new_c_file_path)

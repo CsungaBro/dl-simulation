@@ -1,0 +1,14 @@
+$# LS-PrePost command file created by LS-PrePost(R) V4.7.17 - 08Jul2020 -64bit-Window
+$# Created on Apr-21-2022 (13:48:07)
+open d3plot "C:\Users\CsungaBro\Documents\code\dl-simulation\ls-dyna-automatization\output\k_files\sim_0_120x120x27.5_R6.5\d3plot"
+ac
+state -1
+-M 2
+-M 3
+output "C:\Users\CsungaBro\Documents\code\dl-simulation\ls-dyna-automatization\output\k_files\sim_0_120x120x27.5_R6.5\1_25.stl" 1 8 0 0
+-M 1
++M 2
+output "C:\Users\CsungaBro\Documents\code\dl-simulation\ls-dyna-automatization\output\k_files\sim_0_120x120x27.5_R6.5\2_25.stl" 1 8 0 0
+-M 2
++M 3
+output "C:\Users\CsungaBro\Documents\code\dl-simulation\ls-dyna-automatization\output\k_files\sim_0_120x120x27.5_R6.5\3_25.stl" 1 8 0 0
