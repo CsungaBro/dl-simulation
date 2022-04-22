@@ -184,7 +184,7 @@ class PowershellRunner:
                 fsp.write("\n")
                 fsp.write(r'lsrun {} -submit -cleanjobs'.format(k_file_full_path))
                 fsp.write("\n")
-                fsp.write("Start-Sleep 1")
+                fsp.write("Start-Sleep 0.25")
                 self.lsrun_first_in = True
             else:
                 fsp.write("\n")

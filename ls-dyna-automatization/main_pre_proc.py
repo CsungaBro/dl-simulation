@@ -36,7 +36,7 @@ class DirHandler:
 
 class ParamaterTextGenerator:
     def __init__(self, container) -> None:
-        self.path = "parameter_text.txt"
+        self.path = "misc\\parameter_text.txt"
         self.p_container = container
 
     def generate_text_file(self):
