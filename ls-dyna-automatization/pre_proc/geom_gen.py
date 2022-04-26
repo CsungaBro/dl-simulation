@@ -1,4 +1,3 @@
-from pytest import param
 import regex as re
 import os 
 
