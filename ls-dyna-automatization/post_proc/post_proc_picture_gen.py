@@ -26,6 +26,8 @@ class CFilePngManipulator:
         with open(self.png_maker_path, "r") as fr, open(self.new_c_file_path, "w") as fw:
             for line in fr:
                 fw.writelines(self.process(line))
+        return self.new_png_path 
+
     
     def process(self, line):
         search_1 = "open d3plot"
