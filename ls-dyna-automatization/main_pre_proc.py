@@ -1,5 +1,7 @@
 from pre_proc import geom_gen as gg
 from pre_proc import ls_c_runner as ls
+from pre_proc import my_sql_handler as sql_h
+from logger import csu_logger as csu_logger
 import os
 import shutil
 
@@ -70,6 +72,7 @@ class ScriptRunner:
         self.SimulationGenerator.lsrun_command_runner()
 
 if __name__ == "__main__":
+    logger = csu_logger.logger_init()
     IH = InformationHandler()
     IH.height_range = [5,30]
     IH.radius_range = [2,20]
@@ -78,17 +81,21 @@ if __name__ == "__main__":
     IH.k_dir_path = "output\\k_files"
     IH.c_file_template_path = "template\\save_2.cfile"
     IH.c_file_save_path = "template\\save_temp.cfile"
+    IH.db_name = "Test_Paramaters"
+    IH.table_name = "test_parameters"
 
     DH = DirHandler(IH.k_dir_path, IH.c_dir_path)
 
-    P = gg.GeometricParameters(IH.height_range, IH.radius_range, IH.number_of_simulation)
+    mysql_handler = sql_h.MySQLHandler(IH.db_name, IH.table_name)
+
+    P = gg.GeometricParameters(IH.height_range, IH.radius_range, IH.number_of_simulation, mysql_handler)
     P.generate_all_parameters()
     IH.all_parameters_container = P.all_parameters_container
 
     PTG = ParamaterTextGenerator(P.all_parameters_container)
     PTG.generate_text_file()
 
-    ONG = gg.OutputNameGenerator(IH.c_dir_path, IH.all_parameters_container)
+    ONG = gg.OutputNameGenerator(IH.c_dir_path, IH.all_parameters_container, mysql_handler)
     ONG.output_path_generator()
     IH.output_names = ONG.output_names
 

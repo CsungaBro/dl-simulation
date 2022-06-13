@@ -1,5 +1,6 @@
 import regex as re
 import os 
+import logging
 
 
 class GeometricParameters():
@@ -8,7 +9,8 @@ class GeometricParameters():
     The main_parameters are generated from main_parameters_ranges with the number of simulations specified. 
     From the main_parameters the derived_parameters are generated. 
     """
-    def __init__(self, height_range, radius_range, number_of_simulation):
+    def __init__(self, height_range, radius_range, number_of_simulation, MySQLHandler):
+        self.MySQLHandler = MySQLHandler
         self.main_parameters_range = {
             "number_of_simulations" : number_of_simulation, # BUG not sim but case in for the main params
             # Matrize parameters
@@ -96,11 +98,21 @@ class GeometricParameters():
         """
         self.all_parameters = {}
         self.calculate_main_parameters(var_1, var_2)
-        self.calculate_derived_parameters()
-        if self.check_if_doable_geom():
-            self.all_parameters.update(self.main_parameters)
-            self.all_parameters.update(self.derived_parameters)
-            self.all_parameters.update(self.fix_parameters)
+        c, d, h, r = self.fix_parameters["c2"], self.fix_parameters["d2"], self.main_parameters["h2"], self.main_parameters["r2_b"]
+        hash_id = self.MySQLHandler.hash_data_maker(c, d, h, r)
+        # The problem is somewhere here
+        logging.debug(hash_id)
+        if not self.MySQLHandler.already_added_checker(hash_id):
+            logging.debug("IN")
+            self.calculate_derived_parameters()
+            if self.check_if_doable_geom():
+                self.all_parameters.update(self.main_parameters)
+                self.all_parameters.update(self.derived_parameters)
+                self.all_parameters.update(self.fix_parameters)
+                self.MySQLHandler.data_setter_handler(c, d, h, r)
+                return True 
+        else:
+            return False
 
     def generate_all_parameters(self):
         """
@@ -108,9 +120,11 @@ class GeometricParameters():
         """
         for var_1 in range(self.main_parameters_range["number_of_simulations"]):
             for var_2 in range(self.main_parameters_range["number_of_simulations"]):
-                self.calculate_all_parameters(var_1, var_2)
-                if self.check_if_doable_geom():
-                    self.all_parameters_container.append(self.all_parameters)
+                is_it_new = self.calculate_all_parameters(var_1, var_2)
+                if is_it_new:
+                    if self.check_if_doable_geom():
+                        self.all_parameters_container.append(self.all_parameters)
+                        logging.info("Generated")
 
 
 class OutputNameGenerator:
@@ -118,18 +132,21 @@ class OutputNameGenerator:
     From the list of parameters, use the length, width, and 
     roundness of the matrix to create paths for each simulation.
     """
-    def __init__(self, output_path, all_parameters_cointainer):
+    def __init__(self, output_path, all_parameters_cointainer, MySQLHandler):
+        self.MySQLHandler = MySQLHandler
         self.output_path = output_path
         self.all_parameters_cointainer = all_parameters_cointainer
         self.output_names = []
 
     def output_path_generator(self):
         for count, parameters in enumerate(self.all_parameters_cointainer):
-            file_name = "sim_{}_{}x{}x{}_R{}.cfile".format(count, 
-                                                    parameters["a2"], 
-                                                    parameters["b2"], 
-                                                    parameters["z2"], 
-                                                    parameters["r2_b"])
+            c, d, h, r = parameters["c2"], parameters["d2"], parameters["h2"], parameters["r2_b"]
+            logging.error(f"params in geom_gen{c}, {d}, {h}, {r}")
+            # hash_data = self.MySQLHandler.hash_data_maker(c, d, h, r)
+            # sim_name = self.MySQLHandler.data_getter_handler(hash_data)
+            sim_name = self.MySQLHandler.data_getter_handler(c, d, h, r)
+            logging.info(f"sim_name in geom_gen: {sim_name}")
+            file_name = f"{sim_name}.cfile"
             self.output_names.append(os.path.join(self.output_path, file_name))
 
 
@@ -222,5 +239,7 @@ if __name__ == "__main__":
 
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
-# TODO
-# ->
+'''
+PROBLEM FOUND
+--> Somehow the generator doesnt gives back the right params and then it cant find in the SQL db
+'''

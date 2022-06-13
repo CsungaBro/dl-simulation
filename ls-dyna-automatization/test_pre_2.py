@@ -1,6 +1,6 @@
 from mysql.connector import connect, Error
-from abc import ABC, abstractclassmethod
 from logger import csu_logger as csu_logger
+from abc import ABC, abstractclassmethod
 
 
 class DataBaseExecutor(ABC):
@@ -152,10 +152,10 @@ class MySQLHandler:
         CREATE TABLE {self.table_name}(
             sim_id int AUTO_INCREMENT PRIMARY KEY, 
             hash_id VARCHAR(50),
-            c DECIMAL(3,3), 
-            d DECIMAL(3,3), 
-            h DECIMAL(3,3), 
-            r DECIMAL(3,3),
+            c DECIMAL(10,3), 
+            d DECIMAL(10,3), 
+            h DECIMAL(10,3), 
+            r DECIMAL(10,3),
             UNIQUE(hash_id)
         )
         """        
@@ -282,23 +282,26 @@ class MySQLHandler:
         hash_data = self.hash_data_maker(c, d, h, r)
         if not self.already_added_checker(hash_data):
             self.data_adder(hash_data, c, d, h, r)
+            return True
         else:
             logger.error("It's already in the database")
+            return False
 
     def data_getter_handler(self, c, d, h, r):
         hash_data = self.hash_data_maker(c, d, h, r)
         sim_name = self.sim_name_maker(hash_data)
-        return sim_name, c, d, h, r
+        return sim_name
 
 def main(c, d, h, r):    
 
     db_name = "Test_Paramaters"
     table_name = "test_parameters"
+    # table_name = "parameters"
 
     sql_handler = MySQLHandler(db_name, table_name)
 
-    sql_handler.data_base_maker()
-    sql_handler.table_maker()
+    # sql_handler.data_base_maker()
+    # sql_handler.create_table()
     
     sql_handler.data_setter_handler(c, d, h, r)
     names = sql_handler.data_getter_handler(c, d, h, r)
