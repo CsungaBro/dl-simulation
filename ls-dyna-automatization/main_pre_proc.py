@@ -76,26 +76,28 @@ if __name__ == "__main__":
     IH = InformationHandler()
     IH.height_range = [5,30]
     IH.radius_range = [2,20]
-    IH.number_of_simulation = 5
+    IH.number_of_simulation = 10
     IH.c_dir_path = "output\\c_files"
     IH.k_dir_path = "output\\k_files"
     IH.c_file_template_path = "template\\save_2.cfile"
     IH.c_file_save_path = "template\\save_temp.cfile"
     IH.db_name = "Test_Paramaters"
     IH.table_name = "test_parameters"
+    IH.pkl_path = 'template\\test.pkl'
 
     DH = DirHandler(IH.k_dir_path, IH.c_dir_path)
 
-    mysql_handler = sql_h.MySQLHandler(IH.db_name, IH.table_name)
+    # mysql_handler = sql_h.MySQLHandler(IH.db_name, IH.table_name)
 
-    P = gg.GeometricParameters(IH.height_range, IH.radius_range, IH.number_of_simulation, mysql_handler)
+    P = gg.GeometricParameters(IH.pkl_path, IH.number_of_simulation)
+    # P = gg.GeometricParameters(IH.pkl_path, 10)
     P.generate_all_parameters()
     IH.all_parameters_container = P.all_parameters_container
 
     PTG = ParamaterTextGenerator(P.all_parameters_container)
     PTG.generate_text_file()
 
-    ONG = gg.OutputNameGenerator(IH.c_dir_path, IH.all_parameters_container, mysql_handler)
+    ONG = gg.OutputNameGenerator(IH.c_dir_path, IH.all_parameters_container)
     ONG.output_path_generator()
     IH.output_names = ONG.output_names
 

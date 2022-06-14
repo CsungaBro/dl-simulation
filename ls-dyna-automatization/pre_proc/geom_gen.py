@@ -1,22 +1,26 @@
 import regex as re
 import os 
 import logging
+import pandas as pd
 
 
-class GeometricParameters():
+class GeometricParameters:
     """
     Create the geometry parameters for the simulation. 
     The main_parameters are generated from main_parameters_ranges with the number of simulations specified. 
     From the main_parameters the derived_parameters are generated. 
     """
-    def __init__(self, height_range, radius_range, number_of_simulation, MySQLHandler):
-        self.MySQLHandler = MySQLHandler
-        self.main_parameters_range = {
-            "number_of_simulations" : number_of_simulation, # BUG not sim but case in for the main params
-            # Matrize parameters
-            "h2" : height_range,# "z2_int" = 5-30,
-            "r2_b" : radius_range, # "ra2_int" = ~2/3/5-30
-            }
+    def __init__(self, pkl_path, number_of_sims):
+        self.pkl_path = pkl_path
+        base_df = pd.read_pickle(pkl_path)
+        logging.info(base_df.head(n=12))
+        self.number_of_sims= number_of_sims        
+        self.df = base_df[base_df["generated"] != '1']
+        self.df['side_c'] = self.df['side_c'].astype('float64')
+        self.df['side_d'] = self.df['side_d'].astype('float64')
+        self.df['height'] = self.df['height'].astype('float64')
+        self.df['radius'] = self.df['radius'].astype('float64')       
+        logging.info(self.df.head())
         self.simulations_currently_in_container = 0
         self.fix_parameters = {
             # base parameters
@@ -45,20 +49,16 @@ class GeometricParameters():
         self.derived_parameters = {}
         self.all_parameters = {}
         self.all_parameters_container = []
+        self.parameters_generated = 0
 
-    def calculate_main_parameters(self, var_1, var_2):
+    def calculate_main_parameters(self, row_number):
         """
         Calculates the main parameters based on the range given in the "main_parameters_range"
         """
-        if self.main_parameters_range["number_of_simulations"] == 1:
-            self.main_parameters["h2"]=self.main_parameters_range["h2"][0]
-            self.main_parameters["r2_b"]=self.main_parameters_range["r2_b"][0]
-        else:
-            nof = self.main_parameters_range["number_of_simulations"]
-            step_h2 = (self.main_parameters_range["h2"][1]-self.main_parameters_range["h2"][0])/(nof-1)
-            step_r2_b = (self.main_parameters_range["r2_b"][1]-self.main_parameters_range["r2_b"][0])/(nof-1)
-            self.main_parameters["h2"]=self.main_parameters_range["h2"][0]+var_1*step_h2
-            self.main_parameters["r2_b"]=self.main_parameters_range["r2_b"][0]+var_2*step_r2_b
+        self.main_parameters["c2"]=self.df.iloc[row_number, 0]
+        self.main_parameters["d2"]=self.df.iloc[row_number, 1]
+        self.main_parameters["h2"]=self.df.iloc[row_number, 2]
+        self.main_parameters["r2_b"]=self.df.iloc[row_number, 3]
 
     def check_if_doable_geom(self):
         """
@@ -68,7 +68,7 @@ class GeometricParameters():
         """
         sum_radius = self.main_parameters["r2_b"]+self.fix_parameters["r2_u"]
 
-        if sum_radius+2 >= self.main_parameters["h2"] or self.derived_parameters["r1"] <=0:
+        if sum_radius+1 > self.main_parameters["h2"] or self.derived_parameters["r1"] <=0:
             return False
         else:
             return True
@@ -79,8 +79,8 @@ class GeometricParameters():
         """
         self.derived_parameters["h1"] = self.main_parameters["h2"]+5
         self.derived_parameters["z1"] = self.main_parameters["h2"]+self.fix_parameters["z0"]+self.fix_parameters["thickness"]
-        self.derived_parameters["a1"] = self.fix_parameters["c2"]-self.fix_parameters["thickness"]
-        self.derived_parameters["b1"] = self.fix_parameters["d2"]-self.fix_parameters["thickness"]
+        self.derived_parameters["a1"] = self.main_parameters["c2"]-self.fix_parameters["thickness"]
+        self.derived_parameters["b1"] = self.main_parameters["d2"]-self.fix_parameters["thickness"]
         self.derived_parameters["r1"] = self.main_parameters["r2_b"]-self.fix_parameters["thickness"]
         self.derived_parameters["way1"] = self.main_parameters["h2"]
         # Matrize parameters
@@ -88,43 +88,38 @@ class GeometricParameters():
         # Organoblech parameters
         top_part_length = self.main_parameters["h2"]-(self.main_parameters["r2_b"]+self.fix_parameters["r2_u"])
         perimeter = (self.main_parameters["r2_b"]+self.fix_parameters["r2_u"])*3.1415/2
-        self.derived_parameters["a3"] = self.fix_parameters["c2"]-self.main_parameters["r2_b"]+top_part_length+perimeter+5
-        self.derived_parameters["b3"] = self.fix_parameters["d2"]-self.main_parameters["r2_b"]+top_part_length+perimeter+5
+        self.derived_parameters["a3"] = self.main_parameters["c2"]-self.main_parameters["r2_b"]+top_part_length+perimeter+5
+        self.derived_parameters["b3"] = self.main_parameters["d2"]-self.main_parameters["r2_b"]+top_part_length+perimeter+5
         self.derived_parameters["z3"] = self.main_parameters["h2"]+self.fix_parameters["z0"]+self.fix_parameters["thickness"]/2
     
-    def calculate_all_parameters(self, var_1, var_2):
+    def calculate_all_parameters(self, row):
         """
         Calculates all of the parameters, than if the geometry is doable saves it in a container
         """
         self.all_parameters = {}
-        self.calculate_main_parameters(var_1, var_2)
-        c, d, h, r = self.fix_parameters["c2"], self.fix_parameters["d2"], self.main_parameters["h2"], self.main_parameters["r2_b"]
-        hash_id = self.MySQLHandler.hash_data_maker(c, d, h, r)
+        self.calculate_main_parameters(row)
+        c, d, h, r = self.main_parameters["c2"], self.main_parameters["d2"], self.main_parameters["h2"], self.main_parameters["r2_b"]
+        hash_id = self.df.iloc[row, 4]
+        hash_dict = {'hash_id': hash_id}
         # The problem is somewhere here
         logging.debug(hash_id)
-        if not self.MySQLHandler.already_added_checker(hash_id):
-            logging.debug("IN")
-            self.calculate_derived_parameters()
-            if self.check_if_doable_geom():
-                self.all_parameters.update(self.main_parameters)
-                self.all_parameters.update(self.derived_parameters)
-                self.all_parameters.update(self.fix_parameters)
-                self.MySQLHandler.data_setter_handler(c, d, h, r)
-                return True 
-        else:
-            return False
+        self.calculate_derived_parameters()
+        self.all_parameters.update(self.main_parameters)
+        self.all_parameters.update(self.derived_parameters)
+        self.all_parameters.update(self.fix_parameters)
+        self.all_parameters.update(hash_dict)
 
     def generate_all_parameters(self):
         """
         Generates all of the variations of the parameters for the simulation
         """
-        for var_1 in range(self.main_parameters_range["number_of_simulations"]):
-            for var_2 in range(self.main_parameters_range["number_of_simulations"]):
-                is_it_new = self.calculate_all_parameters(var_1, var_2)
-                if is_it_new:
-                    if self.check_if_doable_geom():
-                        self.all_parameters_container.append(self.all_parameters)
-                        logging.info("Generated")
+        logging.info(self.number_of_sims)
+        for row in range(self.number_of_sims):
+                self.calculate_all_parameters(row)
+                self.all_parameters_container.append(self.all_parameters)
+                logging.info("Generated")
+                self.df.iloc[row, 5] = '1'
+        self.df.to_pickle(self.pkl_path)
 
 
 class OutputNameGenerator:
@@ -132,21 +127,27 @@ class OutputNameGenerator:
     From the list of parameters, use the length, width, and 
     roundness of the matrix to create paths for each simulation.
     """
-    def __init__(self, output_path, all_parameters_cointainer, MySQLHandler):
-        self.MySQLHandler = MySQLHandler
+    def __init__(self, output_path, all_parameters_cointainer):
         self.output_path = output_path
         self.all_parameters_cointainer = all_parameters_cointainer
         self.output_names = []
 
+    def hash_id_generator(self, side_c, side_d, height, radius):
+        side_c = round(side_c, 5)
+        side_d = round(side_d, 5)
+        height = round(height, 5)
+        radius = round(radius, 5)
+        return f"{side_c}x{side_d}x{height}_R{radius}"    
+
     def output_path_generator(self):
         for count, parameters in enumerate(self.all_parameters_cointainer):
             c, d, h, r = parameters["c2"], parameters["d2"], parameters["h2"], parameters["r2_b"]
-            logging.error(f"params in geom_gen{c}, {d}, {h}, {r}")
             # hash_data = self.MySQLHandler.hash_data_maker(c, d, h, r)
             # sim_name = self.MySQLHandler.data_getter_handler(hash_data)
-            sim_name = self.MySQLHandler.data_getter_handler(c, d, h, r)
-            logging.info(f"sim_name in geom_gen: {sim_name}")
+            sim_name = parameters["hash_id"]
+            # logging.info(f"sim_name in geom_gen: {sim_name}")
             file_name = f"{sim_name}.cfile"
+            logging.info(f"file_name in geom_gen: {file_name} and {count}. file")
             self.output_names.append(os.path.join(self.output_path, file_name))
 
 
@@ -223,12 +224,13 @@ if __name__ == "__main__":
     # output_file = "ls-dyna-automatization\\output"
     input_file = "template\\save_2.cfile"
     output_path = "output\\c_files"
+    parameters_path = "C:\\Users\\CsungaBro\\Documents\\code\\dl-simulation\\ls-dyna-automatization\\template\\test.pkl"
     
-    height_range = [5,30]
-    radius_range = [2,20]
-    number_of_simulation = 5
+    # height_range = [5,30]
+    # radius_range = [2,20]
+    # number_of_simulation = 5
 
-    P = GeometricParameters(height_range, radius_range, number_of_simulation)
+    P = GeometricParameters(parameters_path)
     P.generate_all_parameters()
     ONG = OutputNameGenerator(output_path, P.all_parameters_container)
     ONG.output_path_generator()

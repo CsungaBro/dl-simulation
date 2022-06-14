@@ -33,6 +33,7 @@ class MySQLHandler:
             d DECIMAL(3,3), 
             h DECIMAL(3,3), 
             r DECIMAL(3,3),
+            generated INT,
             UNIQUE(hash_id)
         )
         """        
