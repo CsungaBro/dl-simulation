@@ -32,7 +32,7 @@ class GeometricParameters():
             "b2" : 120,
             "c2" : 50,
             "d2" : 50,
-            "r2_u" : 5,
+            "r2_u" : 3,
             "mesh_max_2" : 6,
             "mesh_min_2" : 2,
             "mesh_dev_2" : 1,
