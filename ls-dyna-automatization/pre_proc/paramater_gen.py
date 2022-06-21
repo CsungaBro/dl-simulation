@@ -36,7 +36,9 @@ class ParamaterGeneretor:
         side_d_max = self.side_d_range[1]
         #init of the dataframe
         hash_id_min = self.hash_id_generator(side_c_min, side_d_min, height_min, radius_min)
+        self.number_of_generated =+ 1
         hash_id_max = self.hash_id_generator(side_c_max, side_d_max, height_max, radius_max)
+        self.number_of_generated =+ 1
         data = np.array([
             [side_c_min, side_d_min, height_min, radius_min, hash_id_min, 0],
             [side_c_max, side_d_max, height_max, radius_max, hash_id_max, 0]])
@@ -65,13 +67,15 @@ class ParamaterGeneretor:
                 print(self.df)
                 for k in range(needed_var):
                     for l in range(needed_var):
-                        side_c = lists[0][i]
-                        side_d = lists[1][j]
-                        height = lists[2][k]
-                        radius = lists[3][l]
+                        side_c = round(lists[0][i], 2)
+                        side_d = round(lists[1][j], 2)
+                        height = round(lists[2][k], 2)
+                        radius = round(lists[3][l], 2)
                         self.parameter_generator(side_c, side_d, height, radius)
-        self.df.to_pickle(pkl_path)
         print(self.df)
+        self.df_shuf = self.df.iloc[np.random.permutation(len(self.df))]
+        print(self.df_shuf)
+        self.df_shuf.to_pickle(pkl_path)
     
     def step_generator(self, par_min, par_max, needed_var):
         diff = par_max-par_min
@@ -98,11 +102,7 @@ class ParamaterGeneretor:
         return [side_c_nums, side_d_nums, height_nums, radius_nums]
         
     def hash_id_generator(self, side_c, side_d, height, radius):
-        side_c = round(side_c, 5)
-        side_d = round(side_d, 5)
-        height = round(height, 5)
-        radius = round(radius, 5)
-        return f"{side_c}x{side_d}x{height}_R{radius}"
+        return f"sim_{self.number_of_generated}_{side_c}x{side_d}x{height}_R{radius}"
 
     def parameter_generator(self, side_c, side_d, height, radius):
         if self.implementation_check(side_c, side_d, height, radius):
@@ -111,9 +111,6 @@ class ParamaterGeneretor:
             new_df = pd.DataFrame(data, columns=['side_c', 'side_d', 'height','radius', 'hash_id', 'generated'])
             self.df = pd.concat([self.df, new_df], ignore_index=True)
             self.number_of_generated = self.number_of_generated + 1
-        else:
-            print("NOT Added")
-
 
     def old_parameter_generator(self):
         last_two_row = self.df.iloc[[-2,-1], :]
@@ -137,7 +134,7 @@ if __name__ == '__main__':
         "number_of_simulations" : 20_000, # BUG not sim but case in for the main params
         # Matrize parameters
         "h2" : [5, 20],# "z2_int" = 5-30,
-        "r2_b" : [2, 15], # "ra2_int" = ~2/3/5-30
+        "r2_b" : [3, 15], # "ra2_int" = ~2/3/5-30
         'c2' : [20, 80],
         'd2' : [20, 80],
         }
@@ -151,5 +148,5 @@ if __name__ == '__main__':
     side_d_range = parameters_dic['d2']
     fix_radius = fix_params['r2_u']
     paramater_generetor = ParamaterGeneretor(height_range, radius_range, side_c_range, side_d_range, fix_radius)
-    pkl_path = "C:\\Users\\CsungaBro\\Documents\\code\\dl-simulation\\ls-dyna-automatization\\template\\test.pkl"
+    pkl_path = "C:\\Users\\CsungaBro\\Documents\\code\\dl-simulation\\ls-dyna-automatization\\template\\test_4.pkl"
     paramater_generetor.all_parameter_generator(number_of_simulations, pkl_path)

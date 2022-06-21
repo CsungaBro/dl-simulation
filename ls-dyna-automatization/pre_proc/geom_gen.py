@@ -29,17 +29,9 @@ class GeometricParameters:
             "z0" : 10,
             # Stamp/Stempel parameters        
             "mesh_max_1" : 3,
-            "mesh_min_1" : 1,
-            "mesh_dev_1" : 0.5,
             # Matrize parameters
-            "a2" : 120,
-            "b2" : 120,
-            "c2" : 50,
-            "d2" : 50,
             "r2_u" : 3,
             "mesh_max_2" : 6,
-            "mesh_min_2" : 2,
-            "mesh_dev_2" : 1,
             # Organoblech parameters
             "mesh_max_3" : 3,
             "mesh_min_3" : 1,
@@ -59,6 +51,7 @@ class GeometricParameters:
         self.main_parameters["d2"]=self.df.iloc[row_number, 1]
         self.main_parameters["h2"]=self.df.iloc[row_number, 2]
         self.main_parameters["r2_b"]=self.df.iloc[row_number, 3]
+        self.main_parameters["sim_id"]=self.df.index[row_number]
 
     def check_if_doable_geom(self):
         """
@@ -77,20 +70,41 @@ class GeometricParameters:
         """
         Calculates the derived parameters based on the main parameters
         """
+        # Helper parameters
+        top_part_length = self.main_parameters["h2"]-(self.main_parameters["r2_b"]+self.fix_parameters["r2_u"])
+        perimeter = (self.main_parameters["r2_b"]+self.fix_parameters["r2_u"])*3.1415/2
         self.derived_parameters["h1"] = self.main_parameters["h2"]+5
         self.derived_parameters["z1"] = self.main_parameters["h2"]+self.fix_parameters["z0"]+self.fix_parameters["thickness"]
         self.derived_parameters["a1"] = self.main_parameters["c2"]-self.fix_parameters["thickness"]
         self.derived_parameters["b1"] = self.main_parameters["d2"]-self.fix_parameters["thickness"]
         self.derived_parameters["r1"] = self.main_parameters["r2_b"]-self.fix_parameters["thickness"]
         self.derived_parameters["way1"] = self.main_parameters["h2"]
+        self.derived_parameters["mesh_max_1"] = (self.main_parameters["c2"] + self.main_parameters["d2"]) / (2*1.5*10)
+        self.derived_parameters["mesh_min_1"] = self.derived_parameters["mesh_max_1"] / 2
+        self.derived_parameters["mesh_dev_1"] = self.derived_parameters["mesh_min_1"] / 2
+        self.derived_parameters["mesh_dev_1"] = round(self.derived_parameters["mesh_max_1"], 2)
+        self.derived_parameters["mesh_dev_1"] = round(self.derived_parameters["mesh_min_1"], 2)
+        self.derived_parameters["mesh_dev_1"] = round(self.derived_parameters["mesh_dev_1"], 2)
         # Matrize parameters
         self.derived_parameters["z2"] = self.main_parameters["h2"]+self.fix_parameters["z0"]
+        self.derived_parameters["a2"] = self.main_parameters["c2"]+top_part_length+perimeter+10
+        self.derived_parameters["b2"] = self.main_parameters["d2"]+top_part_length+perimeter+10
+        self.derived_parameters["mesh_max_2"] = (self.main_parameters["c2"] + self.main_parameters["d2"]) / (2*1.5*10)
+        self.derived_parameters["mesh_min_2"] = self.derived_parameters["mesh_max_2"] / 2
+        self.derived_parameters["mesh_dev_2"] = self.derived_parameters["mesh_min_2"] / 2
+        self.derived_parameters["mesh_dev_2"] = round(self.derived_parameters["mesh_max_2"], 2)
+        self.derived_parameters["mesh_dev_2"] = round(self.derived_parameters["mesh_min_2"], 2)
+        self.derived_parameters["mesh_dev_2"] = round(self.derived_parameters["mesh_dev_2"], 2)
         # Organoblech parameters
-        top_part_length = self.main_parameters["h2"]-(self.main_parameters["r2_b"]+self.fix_parameters["r2_u"])
-        perimeter = (self.main_parameters["r2_b"]+self.fix_parameters["r2_u"])*3.1415/2
         self.derived_parameters["a3"] = self.main_parameters["c2"]-self.main_parameters["r2_b"]+top_part_length+perimeter+5
         self.derived_parameters["b3"] = self.main_parameters["d2"]-self.main_parameters["r2_b"]+top_part_length+perimeter+5
         self.derived_parameters["z3"] = self.main_parameters["h2"]+self.fix_parameters["z0"]+self.fix_parameters["thickness"]/2
+        self.derived_parameters["mesh_max_3"] = (self.main_parameters["c2"] + self.main_parameters["d2"]) / (2*1.5*10)
+        self.derived_parameters["mesh_min_3"] = self.derived_parameters["mesh_max_3"] / 2
+        self.derived_parameters["mesh_dev_3"] = self.derived_parameters["mesh_min_3"] / 2
+        self.derived_parameters["mesh_dev_3"] = round(self.derived_parameters["mesh_max_3"], 2)
+        self.derived_parameters["mesh_dev_3"] = round(self.derived_parameters["mesh_min_3"], 2)
+        self.derived_parameters["mesh_dev_3"] = round(self.derived_parameters["mesh_dev_3"], 2)
     
     def calculate_all_parameters(self, row):
         """
@@ -118,7 +132,7 @@ class GeometricParameters:
                 self.calculate_all_parameters(row)
                 self.all_parameters_container.append(self.all_parameters)
                 logging.info("Generated")
-                self.df.iloc[row, 5] = '1'
+                self.df.iloc[row, 5] = '0' #THIS
         self.df.to_pickle(self.pkl_path)
 
 
@@ -141,7 +155,7 @@ class OutputNameGenerator:
 
     def output_path_generator(self):
         for count, parameters in enumerate(self.all_parameters_cointainer):
-            c, d, h, r = parameters["c2"], parameters["d2"], parameters["h2"], parameters["r2_b"]
+            c, d, h, r, sim_id = parameters["c2"], parameters["d2"], parameters["h2"], parameters["r2_b"], parameters["sim_id"]
             # hash_data = self.MySQLHandler.hash_data_maker(c, d, h, r)
             # sim_name = self.MySQLHandler.data_getter_handler(hash_data)
             sim_name = parameters["hash_id"]
@@ -172,13 +186,16 @@ class KFileSaveHandling():
         content = ""
         with open(output_path,"r") as f_r:
             for line in f_r:
-                content += self.process(line)
+                content += self.process(line, output_path)
         with open(output_path,"w") as f_w:
                 f_w.write(content)        
 
-    def process(self, line):
+    def process(self, line, output_path):
         if bool(re.search("R way1", line)):
-            return "R way1    {}  \n".format(self.parameters["way1"])
+            h_par = re.findall("x[0-9]+.[0-9]+_", output_path)[0]
+            h_float = float(h_par[1:-1])
+            h_line = f"R way1    {h_float}  \n"
+            return h_line 
         return line
 
 

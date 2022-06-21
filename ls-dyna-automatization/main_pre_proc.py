@@ -68,8 +68,8 @@ class ScriptRunner:
             self.KFileGenerator.lsrun_command_runner(c_file_path)
             self.KFileSaveHandling.generate_give_k_file(k_file_path, files)
             self.SimulationGenerator.lsrun_command_maker(k_file_path)
-            print("KFile {} is generated".format(files))
-        self.SimulationGenerator.lsrun_command_runner()
+            logger.info("KFile {} is generated".format(files))
+        # self.SimulationGenerator.lsrun_command_runner()
 
 if __name__ == "__main__":
     logger = csu_logger.logger_init()
@@ -83,7 +83,7 @@ if __name__ == "__main__":
     IH.c_file_save_path = "template\\save_temp.cfile"
     IH.db_name = "Test_Paramaters"
     IH.table_name = "test_parameters"
-    IH.pkl_path = 'template\\test.pkl'
+    IH.pkl_path = 'template\\test_4.pkl'
 
     DH = DirHandler(IH.k_dir_path, IH.c_dir_path)
 
