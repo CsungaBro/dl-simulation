@@ -15,8 +15,8 @@ class DirHandler:
     def __init__(self, k_folder, c_folder) -> None:
         self.k_folder = os.path.abspath(k_folder)
         self.c_folder = os.path.abspath(c_folder)
-        self.dir_cleaner()
-        self.dir_maker()
+        # self.dir_cleaner()
+        # self.dir_maker()
     
     def dir_maker(self):
         for folder in [self.k_folder, self.c_folder]:
@@ -40,22 +40,24 @@ class ScriptRunner:
             paths = self.FileHandler.files_preper()
             c_file_path, k_file_path = paths[0], paths[1]
             self.SimulationGenerator.lsrun_command_maker(k_file_path)
-            print("KFile {} is generated".format(files))
+            logger.info("KFile {} is generated".format(files))
         self.SimulationGenerator.lsrun_command_runner()
 
 
 if __name__ == "__main__":
+    logger = csu_logger.logger_init()
     IH = InformationHandler()
     IH.c_dir_path = "output\\c_files"    
     IH.k_dir_path = "output\\k_files"
+    IH.current_path = "C:\\Users\\CsungaBro\\Documents\\code\\server-test"
 
     DH = DirHandler(IH.k_dir_path, IH.c_dir_path)
 
-    ONG = gg.OutputNameGenerator(IH.c_dir_path, IH.all_parameters_container)
-    ONG.output_path_generator()
-    IH.output_names = ONG.output_names
+    # ONG = gg.OutputNameGenerator(IH.c_dir_path, IH.all_parameters_container)
+    # ONG.output_path_generator()
+    # IH.output_names = ONG.output_names
 
     FH = ls.FileHandler(IH.c_dir_path, IH.k_dir_path)
-    SG = ls.SimulationGenerator()
+    SG = ls.SimulationGenerator(IH.current_path)
     SC = ScriptRunner(FH.c_files_to_prep, FH, SG)
     SC.script_running()
