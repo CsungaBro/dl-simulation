@@ -132,7 +132,7 @@ class GeometricParameters:
                 self.calculate_all_parameters(row)
                 self.all_parameters_container.append(self.all_parameters)
                 logging.info("Generated")
-                self.df.iloc[row, 5] = '0' #THIS
+                self.df.iloc[row, 5] = '1' #THIS
         self.df.to_pickle(self.pkl_path)
 
 

@@ -76,14 +76,14 @@ if __name__ == "__main__":
     IH = InformationHandler()
     IH.height_range = [5,30]
     IH.radius_range = [2,20]
-    IH.number_of_simulation = 10
+    IH.number_of_simulation = 50
     IH.c_dir_path = "output\\c_files"
     IH.k_dir_path = "output\\k_files"
     IH.c_file_template_path = "template\\save_2.cfile"
     IH.c_file_save_path = "template\\save_temp.cfile"
     IH.db_name = "Test_Paramaters"
     IH.table_name = "test_parameters"
-    IH.pkl_path = 'template\\test_4.pkl'
+    IH.pkl_path = 'template\\test_5.pkl' #copy of test_4.pkl just in case
 
     DH = DirHandler(IH.k_dir_path, IH.c_dir_path)
 
