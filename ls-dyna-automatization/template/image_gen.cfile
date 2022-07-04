@@ -9,7 +9,7 @@ ac
 fringe 1023
 pfringe
 background 1 1 1
-range userdef -1 1;
+range userdef -0.5 1;
 range pal gray max 360;
 range pal gray min 0;
 print png "C:\Users\CsungaBro\Documents\code\dl-simulation\ls-dyna-automatization\output\k_files\sim_0_120x120x27.5_R6.5\image_001.png" enlisted "OGL1x1" 

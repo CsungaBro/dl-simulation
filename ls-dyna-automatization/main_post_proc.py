@@ -6,8 +6,8 @@ from post_proc import file_copy as fc
 
 if __name__ == "__main__":
     k_dir_path = "output\\k_files"
-    c_file_png_template_path = "template\image_gen.cfile"
-    c_file_stl_template_path = "template\stl_gen.cfile"
+    c_file_png_template_path = "template\\image_gen.cfile"
+    c_file_stl_template_path = "template\\stl_gen.cfile"
     sim_png = "output\\sim"
 
     FH = pppg.FileHandler(k_dir_path, c_file_png_template_path)
