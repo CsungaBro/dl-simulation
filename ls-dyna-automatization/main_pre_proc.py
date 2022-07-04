@@ -1,6 +1,7 @@
 from pre_proc import geom_gen as gg
 from pre_proc import ls_c_runner as ls
 from pre_proc import my_sql_handler as sql_h
+from pre_proc import files_exporter as fe
 from logger import csu_logger as csu_logger
 import os
 import shutil
@@ -74,9 +75,7 @@ class ScriptRunner:
 if __name__ == "__main__":
     logger = csu_logger.logger_init()
     IH = InformationHandler()
-    IH.height_range = [5,30]
-    IH.radius_range = [2,20]
-    IH.number_of_simulation = 50
+    IH.number_of_simulation = 400
     IH.c_dir_path = "output\\c_files"
     IH.k_dir_path = "output\\k_files"
     IH.c_file_template_path = "template\\save_2.cfile"
@@ -84,6 +83,7 @@ if __name__ == "__main__":
     IH.db_name = "Test_Paramaters"
     IH.table_name = "test_parameters"
     IH.pkl_path = 'template\\test_5.pkl' #copy of test_4.pkl just in case
+    IH.export_path = 'export\\all_inp_06'
 
     DH = DirHandler(IH.k_dir_path, IH.c_dir_path)
 
@@ -112,3 +112,6 @@ if __name__ == "__main__":
 
     SC = ScriptRunner(FH.c_files_to_prep, FH, KFG, KFH, SG, CFM)
     SC.script_running()
+
+    file_handler = fe.FileHandler(IH.k_dir_path, IH.c_dir_path, IH.export_path)
+    file_handler.file_zipper()    
