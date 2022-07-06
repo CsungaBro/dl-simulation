@@ -30,6 +30,10 @@ class CurvatureGenerator(ABC):
 class PyVistaCurvatureGenerator(CurvatureGenerator):
     def __init__(self, method='mean') -> None:
         super().__init__(method)
+        self.camera_pos = [
+            (39.0, 39.0, 247.63193047090098), 
+            (39.0, 39.0, 32.09499931335449), 
+            (0.0, 1.0, 0.0)]
 
     def curvature_generation(self, output_path) -> None:
         self.plotter = pv.Plotter(off_screen=True)
@@ -38,7 +42,8 @@ class PyVistaCurvatureGenerator(CurvatureGenerator):
         mesh = pv.read(self.stl_path)
         curv = mesh.curvature(curv_type="mean")
         mesh_actor = self.add_actor_to_plotter(mesh, curv)
-        self.plotter.view_xy()        
+        self.plotter.view_xy()
+        self.plotter.camera_position = self.camera_pos        
         self.plotter.show(screenshot=output_path)
         self.remove_actor_to_plotter(mesh_actor)
 
