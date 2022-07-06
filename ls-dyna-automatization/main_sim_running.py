@@ -58,6 +58,6 @@ if __name__ == "__main__":
     # IH.output_names = ONG.output_names
 
     FH = ls.FileHandler(IH.c_dir_path, IH.k_dir_path)
-    SG = ls.SimulationGenerator(IH.current_path)
+    SG = ls.SimulationGenerator()
     SC = ScriptRunner(FH.c_files_to_prep, FH, SG)
     SC.script_running()
