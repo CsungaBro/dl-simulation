@@ -1,4 +1,3 @@
-import tensorflow as tf
 import matplotlib.pyplot as plt
 from logger.csu_logger import logger_init
 import os
@@ -56,13 +55,13 @@ class ImageManipulation:
 
     def crop_parameter_init(self):
         self.x_data_crop_param = {
-            'x_1': 240,
+            'x_1': 239,
             'y_1':112,
             'x_2': 783,
-            'y_2':655,            
+            'y_2':656,            
         }
         self.y_data_crop_param = {
-            'x_1': 465,
+            'x_1': 481,
             'y_1':1,
             'x_2': 1170,
             'y_2':705,            
@@ -87,7 +86,7 @@ class ImageManipulation:
 
 
 def main(x_data_path, y_data_path, loc_x_folder_raw, loc_y_folder_raw, loc_x_folder_clean, loc_y_folder_clean):
-    logger.info(f"TensorFlow version:{tf.__version__}")
+    # logger.info(f"TensorFlow version:{tf.__version__}")
     folder_handler = FolderHandler(loc_x_folder_raw, loc_y_folder_raw, loc_x_folder_clean, loc_y_folder_clean)
     folder_handler.make_folders()
     data_renamer = DataRenamer(x_data_path, y_data_path, folder_handler)
@@ -98,8 +97,8 @@ def main(x_data_path, y_data_path, loc_x_folder_raw, loc_y_folder_raw, loc_x_fol
 
 if __name__ =="__main__":
     logger = logger_init()
-    curv_data_path = "C:\\Users\\CsungaBro\\Documents\\code\\dl-simulation\\ls-dyna-automatization\\output\\curv"
-    sim_data_path = "C:\\Users\\CsungaBro\\Documents\\code\\dl-simulation\\ls-dyna-automatization\\output\\sim"
+    curv_data_path = "D:\\code\\dl-simulation\\ls-dyna-automatization\\output\\curv"
+    sim_data_path = "D:\\code\\dl-simulation\\ls-dyna-automatization\\output\\sim"
     loc_x_folder_raw = "raw\\x-data"
     loc_x_folder_clean = "clean\\x-data"
     loc_y_folder_raw = "raw\\y-data"
