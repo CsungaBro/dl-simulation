@@ -13,3 +13,5 @@ machine-learning/fafo/
 machine-learning/x-data
 machine-learning/y-data
 *ls-dyna-automatization/export
+*machine-learning/clean
+*machine-learning/raw
