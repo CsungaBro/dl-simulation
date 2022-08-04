@@ -70,7 +70,7 @@ class ScriptRunner:
             self.KFileSaveHandling.generate_give_k_file(k_file_path, files)
             self.SimulationGenerator.lsrun_command_maker(k_file_path)
             logger.info("KFile {} is generated".format(files))
-        # self.SimulationGenerator.lsrun_command_runner()
+        self.SimulationGenerator.lsrun_command_runner()
 
 if __name__ == "__main__":
     logger = csu_logger.logger_init()

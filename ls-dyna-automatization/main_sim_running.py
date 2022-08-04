@@ -49,7 +49,7 @@ if __name__ == "__main__":
     IH = InformationHandler()
     IH.c_dir_path = "output\\c_files"    
     IH.k_dir_path = "output\\k_files"
-    IH.current_path = "C:\\Users\\CsungaBro\\Documents\\code\\server-test"
+    IH.current_path = "D:\\code\\dl-simulation\\ls-dyna-automatization"
 
     DH = DirHandler(IH.k_dir_path, IH.c_dir_path)
 

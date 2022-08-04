@@ -95,7 +95,7 @@ class SimulationGenerator:
         self.lspp_powershell_env_dir_path = os.path.dirname(self.lspp_powershell_env_path)
         self.current_path = "C:\\Users\\CsungaBro\\Documents\\code\\dl-simulation\\ls-dyna-automatization"
         self.lspp_powershell_run_path = r"D:\Program Files\ANSYS 2020R2 LS-DYNA Student 12.0.0\LS-PrePost\LS-Run 1.0\lsrun.exe"
-        self.lsrun_env_command = f'Set-Alias lsrun "{self.lspp_powershell_env_dir_path}"'
+        self.lsrun_env_command = f'Set-Alias lsrun "{self.lspp_powershell_run_path}"'
         self.k_file_path_container = []
         self.lsrun_first_in = False
 
@@ -127,7 +127,7 @@ class SimulationGenerator:
 
     def lsrun_command_runner(self):
         """runs the LS-Run script"""
-        completed1 = subprocess.Popen(["powershell", ".\{}".format(self.path_of_lsrun_powershell)])
+        completed1 = subprocess.run(["powershell", ".\{}".format(self.path_of_lsrun_powershell)])
 
 
 class PowershellRunner:
@@ -137,7 +137,8 @@ class PowershellRunner:
         self.lspp_powershell_env_dir_path = os.path.dirname(self.lspp_powershell_env_path)
         self.current_path = "C:\\Users\\CsungaBro\\Documents\\code\\dl-simulation\\ls-dyna-automatization"
         self.lspp_env_command = "Set-Alias lspp $ENV:ANSYS_STUDENT_LSDYNA_LSPREPOST_PATH"
-        self.lsrun_env_command = "Set-Alias lsrun $ENV:ANSYS_STUDENT_LSDYNA_LSRUN_PATH"
+        self.lsrun_path = r"D:\Program Files\ANSYS 2020R2 LS-DYNA Student 12.0.0\LS-PrePost\LS-Run 1.0\lsrun.exe"
+        self.lsrun_env_command = f"Set-Alias lsrun {self.lsrun_path}"
         self.k_file_path_container = []
         self.lsrun_first_in = False
 
@@ -194,7 +195,7 @@ class PowershellRunner:
 
     def lsrun_command_runner(self):
         """runs the LS-Run script"""
-        completed1 = subprocess.Popen(["powershell", ".\{}".format(self.path_of_lsrun_powershell)])
+        completed1 = subprocess.run(["powershell", ".\{}".format(self.path_of_lsrun_powershell)])
         print(completed1)
 
 
