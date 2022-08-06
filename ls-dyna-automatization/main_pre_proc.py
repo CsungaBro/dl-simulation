@@ -5,6 +5,7 @@ from pre_proc import files_exporter as fe
 from logger import csu_logger as csu_logger
 import os
 import shutil
+import time
 
 
 class InformationHandler:
@@ -53,29 +54,34 @@ class ParamaterTextGenerator:
 
 class ScriptRunner:
     """This part gets the diffent commponent togother and runs them"""
-    def __init__(self, number_of_files, FileHandler, KFileGenerator, KFileSaveHandling, SimulationGenerator, CFileManipulator ):
+    def __init__(self, number_of_files, FileHandler, KFileGenerator, KFileSaveHandling, SimulationGenerator, CFileManipulator, InfoHandler):
         self.number_of_files = number_of_files
         self.FileHandler = FileHandler
         self.KFileGenerator = KFileGenerator
         self.KFileSaveHandling = KFileSaveHandling
         self.SimulationGenerator = SimulationGenerator
         self.CFileManipulator = CFileManipulator
+        self.InfoHandler = InfoHandler
     
     def script_running(self):
+        start_time = time.time()
         for files in range(self.number_of_files):
+            loop_start_time = time.time()
             paths = self.FileHandler.files_preper()
             c_file_path, k_file_path = paths[0], paths[1]
             self.CFileManipulator.c_file_save_adder(c_file_path, k_file_path)
             self.KFileGenerator.lsrun_command_runner(c_file_path)
             self.KFileSaveHandling.generate_give_k_file(k_file_path, files)
             self.SimulationGenerator.lsrun_command_maker(k_file_path)
-            logger.info("KFile {} is generated".format(files))
-        self.SimulationGenerator.lsrun_command_runner()
+            run_time = time.time()-start_time
+            loop_time = time.time()-loop_start_time
+            logger.info(f"KFile {files}/{self.InfoHandler.number_of_simulation} is generated in {loop_time:3} s\nScript runtime is {run_time:3}")
+        # self.SimulationGenerator.lsrun_command_runner()
 
 if __name__ == "__main__":
     logger = csu_logger.logger_init()
     IH = InformationHandler()
-    IH.number_of_simulation = 400
+    IH.number_of_simulation = 50
     IH.c_dir_path = "output\\c_files"
     IH.k_dir_path = "output\\k_files"
     IH.c_file_template_path = "template\\save_2.cfile"
@@ -110,7 +116,7 @@ if __name__ == "__main__":
     KFH = gg.KFileSaveHandling(P.all_parameters_container, ONG.output_names)
     SG = ls.SimulationGenerator()
 
-    SC = ScriptRunner(FH.c_files_to_prep, FH, KFG, KFH, SG, CFM)
+    SC = ScriptRunner(FH.c_files_to_prep, FH, KFG, KFH, SG, CFM, IH)
     SC.script_running()
 
     file_handler = fe.FileHandler(IH.k_dir_path, IH.c_dir_path, IH.export_path)
