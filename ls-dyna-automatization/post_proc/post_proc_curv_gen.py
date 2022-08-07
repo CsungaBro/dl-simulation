@@ -58,7 +58,7 @@ class PyVistaCurvatureGenerator(CurvatureGenerator):
     def curvature_generation(self, output_path) -> None:
         self.plotter = pv.Plotter(off_screen=True)
         self.plotter.background_color = (0,0,0)
-        print(self.stl_path)
+        # print(self.stl_path)
         mesh = pv.read(self.stl_path)
         curv = mesh.curvature(curv_type="mean")
         mesh_actor = self.add_actor_to_plotter(mesh, curv)

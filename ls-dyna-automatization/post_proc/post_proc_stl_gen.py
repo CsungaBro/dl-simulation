@@ -12,7 +12,7 @@ class CFileSTLManipulator:
         self.new_c_file_path = os.path.join(k_file_folder_path, self.new_c_file_name)
         self.new_png_path = re.sub(".cfile", "", self.new_c_file_path)
         self.output_path = os.path.join(k_file_folder_path, "d3plot")
-        print(self.new_c_file_path)
+        # print(self.new_c_file_path)
         with open(self.stl_maker_path, "r") as fr, open(self.new_c_file_path, "w") as fw:
             for line in fr:
                 fw.writelines(self.process(line))

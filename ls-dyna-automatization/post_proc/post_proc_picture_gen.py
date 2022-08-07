@@ -7,7 +7,7 @@ class FileHandler:
         self.k_folder_path =  k_folder_path
         self.png_maker_path = png_maker_path
         self.k_file_folders = self.folder_lister()
-        [print(x) for x in self.k_file_folders]
+        # [print(x) for x in self.k_file_folders]
 
     def folder_lister(self):
         return [os.path.join(self.k_folder_path, folder) for folder in os.listdir(self.k_folder_path)]
@@ -22,7 +22,7 @@ class CFilePngManipulator:
         self.new_c_file_path = os.path.join(k_file_folder_path, self.new_c_file_name)
         self.new_png_path = re.sub("cfile", "png", self.new_c_file_path)
         self.output_path = os.path.join(k_file_folder_path, "d3plot")
-        print(self.new_c_file_path)
+        # print(self.new_c_file_path)
         with open(self.png_maker_path, "r") as fr, open(self.new_c_file_path, "w") as fw:
             for line in fr:
                 fw.writelines(self.process(line))
