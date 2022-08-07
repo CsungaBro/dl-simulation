@@ -1,3 +1,4 @@
+import enum
 from pre_proc import geom_gen as gg
 from pre_proc import ls_c_runner as ls
 from pre_proc import my_sql_handler as sql_h
@@ -65,7 +66,7 @@ class ScriptRunner:
     
     def script_running(self):
         start_time = time.time()
-        for files in range(self.number_of_files):
+        for count, files in enumerate(range(self.number_of_files)):
             loop_start_time = time.time()
             paths = self.FileHandler.files_preper()
             c_file_path, k_file_path = paths[0], paths[1]
@@ -73,9 +74,11 @@ class ScriptRunner:
             self.KFileGenerator.lsrun_command_runner(c_file_path)
             self.KFileSaveHandling.generate_give_k_file(k_file_path, files)
             self.SimulationGenerator.lsrun_command_maker(k_file_path)
-            run_time = time.time()-start_time
-            loop_time = time.time()-loop_start_time
-            logger.info(f"KFile {files}/{self.InfoHandler.number_of_simulation} is generated in {loop_time:3} s\nScript runtime is {run_time:3}")
+            run_time = time.time() - start_time
+            loop_time = time.time() - loop_start_time
+            processed = count + 1
+            full_time_est = (run_time / processed)*self.number_of_files
+            logger.info(f"Processed: {processed} / {self.number_of_files}\nRuntime:{run_time:.2f}\nLooptime:{loop_time:.2f}\nEstimated runtime:{full_time_est:.2f}")
         # self.SimulationGenerator.lsrun_command_runner()
 
 if __name__ == "__main__":
