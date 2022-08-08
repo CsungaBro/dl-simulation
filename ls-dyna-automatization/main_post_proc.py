@@ -32,7 +32,9 @@ if __name__ == "__main__":
         PVCG.main(folder)
         FC.file_copy(png_path, sim_png)
         run_time = time.time() - start_time
+        run_time_str = time.strftime('%H:%M:%S', time.gmtime(int(run_time)))
         loop_time = time.time() - loop_start_time
         processed = count + 1
         full_time_est = (run_time / processed)*k_folder_number
-        logger.info(f"Processed: {processed} / {k_folder_number}\nRuntime:{run_time:.2f}\nLooptime:{loop_time:.2f}\nEstimated runtime:{full_time_est:.2f} ")
+        full_time_str = time.strftime('%H:%M:%S', time.gmtime(int(full_time_est)))
+        logger.info(f"Processed: {processed} / {k_folder_number}\nRuntime:{run_time_str}\nLooptime:{loop_time:.2f}\nEstimated runtime:{full_time_str} ")

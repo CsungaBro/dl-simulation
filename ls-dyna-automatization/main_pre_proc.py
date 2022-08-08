@@ -84,7 +84,7 @@ class ScriptRunner:
 if __name__ == "__main__":
     logger = csu_logger.logger_init()
     IH = InformationHandler()
-    IH.number_of_simulation = 50
+    IH.number_of_simulation = 200
     IH.c_dir_path = "output\\c_files"
     IH.k_dir_path = "output\\k_files"
     IH.c_file_template_path = "template\\save_2.cfile"
