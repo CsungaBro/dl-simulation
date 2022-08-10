@@ -8,7 +8,7 @@ state 25;
 ac
 fringe 1023
 pfringe
-background 1 1 1
+background 0 0 0
 range userdef -0.5 1;
 range pal gray max 360;
 range pal gray min 0;
