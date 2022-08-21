@@ -84,14 +84,14 @@ class ScriptRunner:
 if __name__ == "__main__":
     logger = csu_logger.logger_init()
     IH = InformationHandler()
-    IH.number_of_simulation = 200
+    IH.number_of_simulation = 1
     IH.c_dir_path = "output\\c_files"
     IH.k_dir_path = "output\\k_files"
     IH.c_file_template_path = "template\\save_2.cfile"
     IH.c_file_save_path = "template\\save_temp.cfile"
     IH.db_name = "Test_Paramaters"
     IH.table_name = "test_parameters"
-    IH.pkl_path = 'template\\test_5.pkl' #copy of test_4.pkl just in case
+    IH.pkl_path = 'template\\valid_set_0.pkl' #copy of test_4.pkl just in case
     IH.export_path = 'export\\all_inp_06'
 
     DH = DirHandler(IH.k_dir_path, IH.c_dir_path)

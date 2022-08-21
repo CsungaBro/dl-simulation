@@ -10,7 +10,7 @@ print(df)
 
 columns=['side_c', 'side_d', 'height','radius', 'hash_id','generated']
 
-data = np.array([[20.0, 20.0, 20.0, 10.0, "val_0_20.0x20.0x20.0_R10.0", "0"]])
+data = np.array([[80.0, 10.0, 10.0, 5.0, "val_3_80.0x10.0x10.0_R3.0", "0"]])
 
 test_df = pd.DataFrame(data, columns=columns)
 print(test_df)

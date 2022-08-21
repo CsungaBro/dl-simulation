@@ -21,8 +21,8 @@ def main(x_data, y_data, x_data_rs, y_data_rs, IMG_SIZE):
 
 if __name__ == '__main__':
     IMG_SIZE = (256,256)
-    x_data = 'clean\\x-data'
-    y_data = 'clean\\y-data'
-    x_data_rs = 'clean\\x-data-rs'
-    y_data_rs = 'clean\\y-data-rs'
+    x_data = 'val\\clean\\x-data'
+    y_data = 'val\\clean\\y-data'
+    x_data_rs = 'val\\clean\\x-data-rs'
+    y_data_rs = 'val\\clean\\y-data-rs'
     main(x_data, y_data, x_data_rs, y_data_rs, IMG_SIZE)

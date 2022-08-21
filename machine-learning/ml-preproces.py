@@ -25,8 +25,8 @@ class DataRenamer:
             shutil.copy(old_file_path, new_file_path)
 
     def rename_file(self, file_name):
-        sim_name = re.findall("sim_[0-9]+", file_name)[0]
-        data_id = re.sub("sim_", "", sim_name)
+        sim_name = re.findall("[A-Za-z]+_[0-9]+", file_name)[0]
+        data_id = re.sub("[A-Za-z]+_", "", sim_name)
         id_name = f"{data_id}.png"
         logger.info(id_name)
         return id_name
@@ -99,8 +99,8 @@ if __name__ =="__main__":
     logger = logger_init()
     curv_data_path = "D:\\code\\dl-simulation\\ls-dyna-automatization\\output\\curv"
     sim_data_path = "D:\\code\\dl-simulation\\ls-dyna-automatization\\output\\sim"
-    loc_x_folder_raw = "raw\\x-data"
-    loc_x_folder_clean = "clean\\x-data"
-    loc_y_folder_raw = "raw\\y-data"
-    loc_y_folder_clean = "clean\\y-data"
+    loc_x_folder_raw = "val\\raw\\x-data"
+    loc_x_folder_clean = "val\\clean\\x-data"
+    loc_y_folder_raw = "val\\raw\\y-data"
+    loc_y_folder_clean = "val\\clean\\y-data"
     main(curv_data_path, sim_data_path, loc_x_folder_raw, loc_y_folder_raw, loc_x_folder_clean, loc_y_folder_clean)
